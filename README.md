@@ -6,3 +6,6 @@
 4. testObject: 테스트 시에 객체를 직접 생성하지 않고 랜덤한 값이 입력된 객체 생성
 5. holiday: 영업일 관련 대체휴무일, 휴무일 등 날짜 관련 연산 서비스
 6. image: 미디어센터를 통해 등록되는 이미지를 편하게 등록,조회하는 서비스
+7. querydsl-util: querydsl을 koltin infix를 이용하여 예쁘게 만들어줌
+8. src/main: 항상 하지만 까먹기 쉬운 샘플들
+9. restdoc-openapi: spring restdoc의 결과물인 아스키독을 openapi spec으로 변환해준다
