@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d %-5level [%thread] [%X{traceId}]  %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <springProfile name="dev | stage | live">
+        <appender name="Server" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>/var/log/Server.log</file>
+            <append>true</append>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>/var/log/Server.%d{yyyy-MM-dd}.log</fileNamePattern>
+                <maxHistory>1</maxHistory>
+            </rollingPolicy>
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+                <fieldNames>
+                    <timestamp>timeStamp</timestamp>
+                    <level>level</level>
+                    <message>message</message>
+                    <thread>thread</thread>
+                    <stackTrace>stackTrace</stackTrace>
+                    <logger>[ignore]</logger>
+                    <levelValue>[ignore]</levelValue>
+                    <version>[ignore]</version>
+                </fieldNames>
+            </encoder>
+        </appender>
+    </springProfile>
+
+    <springProfile name="dev | stage | live">
+        <appender name="Request" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>/var/log/Request.log</file>
+            <append>true</append>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>/var/log/Request.%d{yyyy-MM-dd}.log</fileNamePattern>
+                <maxHistory>1</maxHistory>
+            </rollingPolicy>
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+                <fieldNames>
+                    <timestamp>timeStamp</timestamp>
+                    <level>level</level>
+                    <message>message</message>
+                    <thread>thread</thread>
+                    <stackTrace>stackTrace</stackTrace>
+                    <logger>[ignore]</logger>
+                    <levelValue>[ignore]</levelValue>
+                    <version>[ignore]</version>
+                </fieldNames>
+            </encoder>
+        </appender>
+        appender
+    </springProfile>
+
+    <springProfile name="dev | stage | live">
+        <logger name="Request" additivity="false" level="debug">
+            <appender-ref ref="Request"/>
+        </logger>
+    </springProfile>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <springProfile name="dev | stage | live">
+            <appender-ref ref="Server"/>
+        </springProfile>
+    </root>
+</configuration>
