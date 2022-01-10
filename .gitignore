@@ -50,7 +50,8 @@ Thumbs.db
 /httpClient/build/
 /testContainer/build/
 /openapi-diff/build/
-/test-object/build/
 /holiday/build/
 /image/build/
 /restdoc-openapi/build/
+/querydsl-util/build/
+/testObject/build/

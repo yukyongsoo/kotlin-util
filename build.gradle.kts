@@ -2,11 +2,11 @@ plugins {
     val kotlinVersion = "1.5.21"
 
     kotlin("jvm") version kotlinVersion
+    kotlin("kapt") version kotlinVersion
+
     idea
 
     id("org.jmailen.kotlinter") version "3.2.0"
-    id("maven-publish")
-
 }
 
 allprojects {
@@ -20,7 +20,8 @@ allprojects {
 subprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "org.jmailen.kotlinter")
-    apply(plugin = "maven-publish")
+    apply(plugin = "kotlin-kapt")
+    apply(plugin = "idea")
 
     dependencies {
         implementation("org.jetbrains.kotlin:kotlin-reflect")
