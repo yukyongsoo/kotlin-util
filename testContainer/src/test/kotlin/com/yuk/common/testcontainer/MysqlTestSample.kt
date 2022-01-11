@@ -12,8 +12,9 @@ class MysqlTestSample {
             MysqlTestContainer.initialize(listOf(config))
         }
 
+        @JvmField
         @RegisterExtension
-        val mysql = MysqlTestContainer
+        val mysql = MysqlTestContainer()
     }
 
     @Test

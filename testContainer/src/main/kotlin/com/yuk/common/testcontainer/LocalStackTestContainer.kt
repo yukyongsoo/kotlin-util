@@ -6,21 +6,23 @@ import org.junit.jupiter.api.extension.ExtensionContext
 import org.testcontainers.containers.localstack.LocalStackContainer
 import org.testcontainers.utility.DockerImageName
 
-object LocalStackTestContainer : BeforeAllCallback {
-    private var initialized: Boolean = false
-    private var serviceList: Array<LocalStackContainer.Service> = arrayOf()
+open class LocalStackTestContainer : BeforeAllCallback {
+    companion object {
+        private var initialized: Boolean = false
+        private var serviceList: Array<LocalStackContainer.Service> = arrayOf()
 
-    fun initialize(serviceList: Set<LocalStackContainer.Service>) {
-        LocalStackTestContainer.serviceList = serviceList.toTypedArray()
-        initialized = true
-    }
+        fun initialize(serviceList: Set<LocalStackContainer.Service>) {
+            LocalStackTestContainer.serviceList = serviceList.toTypedArray()
+            initialized = true
+        }
 
-    private val localstack by lazy {
-        if (initialized.not()) throw RuntimeException("you not set configuration. please call initialize() first")
+        private val localstack by lazy {
+            if (initialized.not()) throw RuntimeException("you not set configuration. please call initialize() first")
 
-        LocalStackContainer(DockerImageName.parse("localstack/localstack:0.11.3")).withServices(
-            *serviceList
-        )
+            LocalStackContainer(DockerImageName.parse("localstack/localstack:0.11.3")).withServices(
+                *serviceList
+            )
+        }
     }
 
     fun getEndPoint(service: LocalStackContainer.Service): AwsClientBuilder.EndpointConfiguration {

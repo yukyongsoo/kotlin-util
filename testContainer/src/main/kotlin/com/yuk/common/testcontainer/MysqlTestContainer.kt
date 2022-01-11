@@ -5,29 +5,31 @@ import org.junit.jupiter.api.extension.ExtensionContext
 import org.testcontainers.containers.MySQLContainer
 import org.testcontainers.utility.DockerImageName
 
-object MysqlTestContainer : BeforeAllCallback {
-    private var initialized: Boolean = false
-    private var initSqlPath: String = ""
-    private var configurationList: List<MysqlTestConfiguration> = listOf()
+open class MysqlTestContainer : BeforeAllCallback {
+    companion object {
+        private var initialized: Boolean = false
+        private var initSqlPath: String = ""
+        private var configurationList: List<MysqlTestConfiguration> = listOf()
 
-    fun initialize(configurationList: List<MysqlTestConfiguration>, initSql: String = "") {
-        MysqlTestContainer.configurationList = configurationList
-        initSqlPath = initSql
+        fun initialize(configurationList: List<MysqlTestConfiguration>, initSql: String = "") {
+            MysqlTestContainer.configurationList = configurationList
+            initSqlPath = initSql
 
-        initialized = true
-    }
+            initialized = true
+        }
 
-    private val mysql by lazy {
-        if (initialized.not()) throw RuntimeException("you not set configuration. please call initialize() first")
+        private val mysql by lazy {
+            if (initialized.not()) throw RuntimeException("you not set configuration. please call initialize() first")
 
-        MySQLContainer<Nothing>(DockerImageName.parse("mysql:5.7.36")).apply {
-            withDatabaseName("test")
-            withUsername("root")
-            withPassword("")
-            withExposedPorts(3306)
+            MySQLContainer<Nothing>(DockerImageName.parse("mysql:5.7.36")).apply {
+                withDatabaseName("test")
+                withUsername("root")
+                withPassword("")
+                withExposedPorts(3306)
 
-            if (initSqlPath.isNotBlank())
-                withInitScript(initSqlPath)
+                if (initSqlPath.isNotBlank())
+                    withInitScript(initSqlPath)
+            }
         }
     }
 

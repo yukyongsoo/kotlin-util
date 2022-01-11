@@ -16,13 +16,14 @@ class LocalStackTestSample {
             )
         }
 
+        @JvmField
         @RegisterExtension
-        val localstack = LocalStackTestContainer
+        val localstack = LocalStackTestContainer()
     }
 
     @Test
     fun test() {
         val endPoint =
-            LocalStackTestContainer.getEndPoint(LocalStackContainer.Service.SQS)
+            localstack.getEndPoint(LocalStackContainer.Service.SQS)
     }
 }

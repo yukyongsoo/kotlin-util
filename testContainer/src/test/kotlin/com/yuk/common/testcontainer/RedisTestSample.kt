@@ -12,8 +12,9 @@ class RedisTestSample {
             )
         }
 
+        @JvmField
         @RegisterExtension
-        val redis = RedisTestContainer
+        val redis = RedisTestContainer()
     }
 
     @Test
