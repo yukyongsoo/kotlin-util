@@ -11,9 +11,15 @@ dependencies {
     implementation("org.testcontainers:mysql:1.16.2")
     implementation("org.junit.jupiter:junit-jupiter:5.7.2")
     implementation("com.amazonaws:aws-java-sdk-core:1.12.133")
+    implementation("cloud.localstack:localstack-utils:0.2.19")
 
     testRuntimeOnly("mysql:mysql-connector-java:8.0.26")
     testImplementation("ch.qos.logback:logback-classic:1.2.10")
+
+    testImplementation(platform("com.amazonaws:aws-java-sdk-bom:1.12.133"))
+    testImplementation("com.amazonaws:aws-java-sdk-kinesis")
+    testImplementation("com.amazonaws:aws-java-sdk-iam")
+    testImplementation("com.amazonaws:aws-java-sdk-sqs")
 }
 
 tasks.withType<Test> {
