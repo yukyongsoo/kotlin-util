@@ -37,7 +37,7 @@ class HolidayCalculatorTest {
     fun `오늘 또는 휴일 이 후 돌아오는 영업일 찾기`() {
         val date = LocalDate.of(2022, 1, 2)
 
-        val next = nonCachedCalc.getBusinessDay(date)
+        val next = nonCachedCalc.nextBusinessDay(date)
 
         assert(next == LocalDate.of(2022, 1, 3))
     }
