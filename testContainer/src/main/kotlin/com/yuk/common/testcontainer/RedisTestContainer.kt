@@ -28,8 +28,16 @@ open class RedisTestContainer : BeforeAllCallback {
         }
     }
 
-    override fun beforeAll(context: ExtensionContext?) {
+    fun start() {
         if (redis.isRunning.not()) redis.start()
+    }
+
+    fun stop() {
+        if (redis.isRunning) redis.stop()
+    }
+
+    override fun beforeAll(context: ExtensionContext?) {
+        start()
 
         hostPropertyList.forEach {
             System.setProperty(it, redis.containerIpAddress)

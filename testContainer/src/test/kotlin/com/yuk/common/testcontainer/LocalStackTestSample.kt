@@ -23,18 +23,35 @@ class LocalStackTestSample {
         val localstack = LocalStackTestContainer()
     }
 
+    private val sqs =
+        localstack.getEndPoint(LocalStackContainer.Service.SQS)
+
+    private val kinesis =
+        localstack.getEndPoint(LocalStackContainer.Service.KINESIS)
+
+    private val support = LocalStackSupport(sqs, kinesis)
+
     @Test
-    fun test() {
-        val sqs =
-            localstack.getEndPoint(LocalStackContainer.Service.SQS)
-
-        val kinesis =
-            localstack.getEndPoint(LocalStackContainer.Service.KINESIS)
-
-        val support = LocalStackSupport(sqs, kinesis)
-
+    fun createSqsQueue() {
         support.createQueue()
+    }
+
+    @Test
+    fun sendSqsQueue() {
+        support.createQueue()
+
+        support.sendSqsMessage(message = "asdfasdf")
+    }
+
+    @Test
+    fun createKinesisStream() {
+        support.createStream()
+    }
+
+    @Test
+    fun sendKinesisStream() {
         support.createStream()
 
+        support.sendKinesisMessage(data = "asdfasdfsdf")
     }
 }

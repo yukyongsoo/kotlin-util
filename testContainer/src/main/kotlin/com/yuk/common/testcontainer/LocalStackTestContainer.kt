@@ -19,7 +19,7 @@ open class LocalStackTestContainer : BeforeAllCallback {
         private val localstack by lazy {
             if (initialized.not()) throw RuntimeException("you not set configuration. please call initialize() first")
 
-            LocalStackContainer(DockerImageName.parse("localstack/localstack:0.11.3")).withServices(
+            LocalStackContainer(DockerImageName.parse("localstack/localstack:0.13.3")).withServices(
                 *serviceList
             )
         }
@@ -30,7 +30,17 @@ open class LocalStackTestContainer : BeforeAllCallback {
             ?: throw RuntimeException("end point not found. did you register service?")
     }
 
+    fun start() {
+        if (localstack.isRunning.not())
+            localstack.start()
+    }
+
+    fun stop() {
+        if (localstack.isRunning)
+            localstack.stop()
+    }
+
     override fun beforeAll(context: ExtensionContext?) {
-        if (localstack.isRunning.not()) localstack.start()
+        start()
     }
 }
