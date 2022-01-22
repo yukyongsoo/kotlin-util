@@ -33,6 +33,14 @@ open class MysqlTestContainer : BeforeAllCallback {
         }
     }
 
+    fun start() {
+        if (mysql.isRunning.not()) mysql.start()
+    }
+
+    fun stop() {
+        if (mysql.isRunning) mysql.stop()
+    }
+
     override fun beforeAll(context: ExtensionContext?) {
         if (mysql.isRunning.not()) mysql.start()
 

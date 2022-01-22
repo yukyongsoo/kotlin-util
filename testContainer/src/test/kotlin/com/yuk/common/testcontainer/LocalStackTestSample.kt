@@ -11,7 +11,9 @@ class LocalStackTestSample {
                 setOf(
                     LocalStackContainer.Service.SQS,
                     LocalStackContainer.Service.DYNAMODB,
-                    LocalStackContainer.Service.KINESIS
+                    LocalStackContainer.Service.CLOUDWATCHLOGS,
+                    LocalStackContainer.Service.KINESIS,
+                    LocalStackContainer.Service.IAM
                 )
             )
         }
@@ -21,9 +23,35 @@ class LocalStackTestSample {
         val localstack = LocalStackTestContainer()
     }
 
+    private val sqs =
+        localstack.getEndPoint(LocalStackContainer.Service.SQS)
+
+    private val kinesis =
+        localstack.getEndPoint(LocalStackContainer.Service.KINESIS)
+
+    private val support = LocalStackSupport(sqs, kinesis)
+
     @Test
-    fun test() {
-        val endPoint =
-            localstack.getEndPoint(LocalStackContainer.Service.SQS)
+    fun createSqsQueue() {
+        support.createQueue()
+    }
+
+    @Test
+    fun sendSqsQueue() {
+        support.createQueue()
+
+        support.sendSqsMessage(message = "asdfasdf")
+    }
+
+    @Test
+    fun createKinesisStream() {
+        support.createStream()
+    }
+
+    @Test
+    fun sendKinesisStream() {
+        support.createStream()
+
+        support.sendKinesisMessage(data = "asdfasdfsdf")
     }
 }
