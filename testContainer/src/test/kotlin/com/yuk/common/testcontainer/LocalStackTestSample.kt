@@ -38,9 +38,18 @@ class LocalStackTestSample {
 
     @Test
     fun sendSqsQueue() {
-        support.createQueue()
+        createSqsQueue()
 
         support.sendSqsMessage(message = "asdfasdf")
+    }
+
+    @Test
+    fun readSqsMessage() {
+        sendSqsQueue()
+
+        val list = support.readSqsMessage()
+
+        assert(list.isNotEmpty())
     }
 
     @Test
@@ -50,8 +59,19 @@ class LocalStackTestSample {
 
     @Test
     fun sendKinesisStream() {
-        support.createStream()
+        createKinesisStream()
 
         support.sendKinesisMessage(data = "asdfasdfsdf")
+    }
+
+    @Test
+    fun readKinesisMessage() {
+        createKinesisStream()
+
+        val seq = support.sendKinesisMessage(data = "asdfasdfsdf")
+
+        val list = support.readKinesisMessage(startingSequence = seq)
+
+        assert(list.isNotEmpty())
     }
 }
