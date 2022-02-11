@@ -22,4 +22,13 @@ class ClientTest {
             "", body = "null"
         ).bodyToMono<String>().block()
     }
+
+    @Test
+    fun patchMethodTest() {
+        val webclient = WebClient.builder().baseUrl("https://naver.com").build()
+
+        ReactiveApiClient(webclient).patch(
+            "", body = "null"
+        ).bodyToMono<String>().block()
+    }
 }

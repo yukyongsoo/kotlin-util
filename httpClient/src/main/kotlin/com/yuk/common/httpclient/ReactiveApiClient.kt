@@ -88,6 +88,26 @@ class ReactiveApiClient(
         return send(spec, errorHandler)
     }
 
+    fun <V> patch(
+        path: String,
+        pathVariables: List<Any> = listOf(),
+        queries: List<Pair<String, Any>> = listOf(),
+        headers: Map<String, String> = mapOf(),
+        body: V? = null,
+        errorHandler: (ClientResponse) -> Mono<out Throwable> = defaultErrorHandler
+    ): WebClient.ResponseSpec {
+        var spec = ReactiveApiClientHelper.buildUriWithBody(
+            webClient.patch(), path, pathVariables, queries
+        )
+
+        if (headers.isNotEmpty()) spec =
+            ReactiveApiClientHelper.buildHeaderWithBody(spec, headers)
+
+        if (body != null) spec.bodyValue(body)
+
+        return send(spec, errorHandler)
+    }
+
     private fun send(
         spec: WebClient.RequestHeadersSpec<*>,
         errorHandler: (ClientResponse) -> Mono<out Throwable>
