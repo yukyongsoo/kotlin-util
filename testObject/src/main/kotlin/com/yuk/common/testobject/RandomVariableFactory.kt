@@ -6,6 +6,9 @@ import org.jeasy.random.randomizers.range.DoubleRangeRandomizer
 import org.jeasy.random.randomizers.range.FloatRangeRandomizer
 import org.jeasy.random.randomizers.range.IntegerRangeRandomizer
 import org.jeasy.random.randomizers.range.LongRangeRandomizer
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentMap
 import kotlin.random.Random
@@ -31,6 +34,22 @@ object RandomVariableFactory {
 
         random = EasyRandom(param)
     }
+
+    fun getInt() = getObject<Int>()
+
+    fun getString() = getObject<String>()
+
+    fun getLong() = getObject<Long>()
+
+    fun getDouble() = getObject<Double>()
+
+    fun getFloat() = getObject<Float>()
+
+    fun getLocalDate() = getObject<LocalDate>()
+
+    fun getLocalTime() = getObject<LocalTime>()
+
+    fun getLocalDateTime() = getObject<LocalDateTime>()
 
     inline fun <reified T> getObject(): T {
         if (Collection::class.java.isAssignableFrom(T::class.java)) throw RuntimeException(
