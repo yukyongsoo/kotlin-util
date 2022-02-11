@@ -11,6 +11,7 @@ dependencies {
     implementation("org.testcontainers:mysql:1.16.2")
     implementation("org.junit.jupiter:junit-jupiter:5.7.2")
     implementation("org.testcontainers:elasticsearch:1.16.2")
+    implementation("org.testcontainers:kafka:1.16.3")
 
     implementation(platform("com.amazonaws:aws-java-sdk-bom:1.12.133"))
     implementation("com.amazonaws:aws-java-sdk-core:1.12.133")
