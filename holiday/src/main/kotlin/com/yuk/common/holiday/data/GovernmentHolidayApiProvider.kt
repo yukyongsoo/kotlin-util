@@ -7,6 +7,7 @@ import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.yuk.common.holiday.Holiday
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
+import java.time.Duration
 import java.time.LocalDate
 import java.time.Year
 import java.time.YearMonth
@@ -55,7 +56,10 @@ internal class GovernmentHolidayApiProvider(
 
     private fun send(spec: WebClient.RequestHeadersSpec<*>): List<Holiday> {
         val raw = spec.retrieve()
-            .bodyToMono<String>().block()!!
+            .bodyToMono<String>()
+            .retry(3)
+            .timeout(Duration.ofSeconds(3))
+            .block()!!
 
         val data = try {
             objectMapper.readValue(raw)
