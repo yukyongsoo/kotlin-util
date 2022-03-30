@@ -18,6 +18,11 @@ class HolidayCalculator(
         if (useCache) MemoryCacheProvider() else null
     )
 
+    constructor(apiKey: String, cacheProvider: CacheProvider) : this(
+        GovernmentHolidayApiProvider(apiKey),
+        cacheProvider
+    )
+
     private val commonWeekendFinder = CommonWeekendFinder()
 
     fun isBusinessDay(dateTime: LocalDateTime): Boolean {
