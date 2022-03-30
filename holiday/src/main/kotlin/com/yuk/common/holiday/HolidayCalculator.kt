@@ -145,7 +145,10 @@ class HolidayCalculator(
         else {
             var businessDay = start
 
-            val holidayList = findAndCaching(yearMonth).map { it.localDate }
+            val holidayList = cacheProvider?.getHolidayList(yearMonth) ?: findAndCaching(
+                yearMonth
+            ).map { it.localDate }
+
             while (businessDay in holidayList) {
                 businessDay = businessDay.plusDays(1)
             }
