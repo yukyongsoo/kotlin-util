@@ -1,6 +1,8 @@
 package com.yuk.common.holiday.data
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.cfg.CoercionAction
+import com.fasterxml.jackson.databind.cfg.CoercionInputShape
 import com.fasterxml.jackson.databind.exc.MismatchedInputException
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
@@ -23,6 +25,8 @@ internal class GovernmentHolidayApiProvider(
     private val objectMapper = ObjectMapper().apply {
         registerKotlinModule()
         findAndRegisterModules()
+        coercionConfigFor(SingleItems::class.java).setCoercion(CoercionInputShape.EmptyString, CoercionAction.AsNull)
+        coercionConfigFor(MultiItems::class.java).setCoercion(CoercionInputShape.EmptyString, CoercionAction.AsNull)
     }
 
     override fun getYearHolidays(year: Year): List<Holiday> {
@@ -66,7 +70,7 @@ internal class GovernmentHolidayApiProvider(
         } catch (e: MismatchedInputException) {
             val single = objectMapper.readValue<GovernmentSingleHolidayResponse>(raw)
 
-            val multiBody = if (single.response.body == null) {
+            val multiBody = if (single.response.body?.items == null) {
                 null
             } else {
                 MultiBody(
@@ -88,7 +92,7 @@ internal class GovernmentHolidayApiProvider(
         if (data.response.header.resultCode != "00")
             throw RuntimeException("can't get GovernmentHoliday. errorCode: ${data.response.header.resultCode}")
 
-        val holidayList = data.response.body!!.items.item
+        val holidayList = data.response.body?.items?.item ?: listOf()
 
         return holidayList.map(::toHoliday)
     }

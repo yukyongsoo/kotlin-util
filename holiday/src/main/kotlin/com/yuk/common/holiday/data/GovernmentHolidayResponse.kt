@@ -19,7 +19,7 @@ internal data class MultiResponse(
 )
 
 internal data class MultiBody(
-    val items: MultiItems,
+    val items: MultiItems?,
     val numOfRows: Int,
     val pageNo: Int,
     val totalCount: Int
@@ -35,7 +35,7 @@ internal data class SingleResponse(
 )
 
 internal data class SingleBody(
-    val items: SingleItems,
+    val items: SingleItems?,
     val numOfRows: Int,
     val pageNo: Int,
     val totalCount: Int
