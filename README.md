@@ -9,3 +9,4 @@
 7. querydsl-util: querydsl을 koltin infix를 이용하여 예쁘게 만들어줌
 8. src/main: 항상 하지만 까먹기 쉬운 샘플들
 9. restdoc-openapi: spring restdoc의 결과물인 아스키독을 openapi spec으로 변환해준다
+10. address: 주소 검색 후 우편번호 및 상세 정보를 반환하는 서비스
