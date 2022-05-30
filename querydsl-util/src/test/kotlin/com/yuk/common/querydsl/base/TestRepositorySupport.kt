@@ -1,5 +1,6 @@
 package com.yuk.common.querydsl.base
 
+import com.blazebit.persistence.querydsl.BlazeJPAQuery
 import com.querydsl.core.QueryResults
 import com.querydsl.jpa.JPQLQuery
 import com.yuk.common.querydsl.and
@@ -10,7 +11,9 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Service
 
 @Service
-open class TestRepositorySupport : QuerydslRepositorySupport(TestEntity::class.java) {
+open class TestRepositorySupport(
+    private val blazeJPAQuery: BlazeJPAQuery<TestEntity>
+) : QuerydslRepositorySupport(TestEntity::class.java) {
     private val entity: QTestEntity = QTestEntity.testEntity
 
     fun read(): QueryResults<TestEntity> {
@@ -22,6 +25,14 @@ open class TestRepositorySupport : QuerydslRepositorySupport(TestEntity::class.j
 
         // if you want sort use below now
         // querydsl!!.applyPagination(pageable, jpqlQuery)
+
+        return jpqlQuery.fetchResults()
+    }
+
+    fun blazeRead(): QueryResults<TestEntity> {
+        val jpqlQuery = blazeJPAQuery select entity where {
+            (entity.test equal "a") and (entity.id equal 1)
+        }
 
         return jpqlQuery.fetchResults()
     }

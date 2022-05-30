@@ -1,5 +1,6 @@
 package com.yuk.common.querydsl
 
+import com.blazebit.persistence.querydsl.BlazeJPAQuery
 import com.querydsl.core.types.EntityPath
 import com.querydsl.core.types.Predicate
 import com.querydsl.core.types.dsl.BooleanExpression
@@ -19,6 +20,10 @@ import java.time.LocalDateTime
 
 infix fun <T> Querydsl?.select(entityPath: EntityPath<T>): AbstractJPAQuery<T, JPAQuery<T>> {
     return this!!.createQuery<T>().from(entityPath)
+}
+
+infix fun <T> BlazeJPAQuery<T>.select(entityPath: EntityPath<T>): AbstractJPAQuery<T, JPAQuery<T>> {
+    return this.from(entityPath).select(entityPath) as AbstractJPAQuery<T, JPAQuery<T>>
 }
 
 inline infix fun <T> JPQLQuery<T>.where(function: () -> Predicate?): JPQLQuery<T> {

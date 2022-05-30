@@ -40,6 +40,8 @@ class QuerydslTest {
 
         val result = testRepositorySupport.read()
 
+        testRepositorySupport.blazeRead()
+
         assert(result.results.isNotEmpty())
     }
 }

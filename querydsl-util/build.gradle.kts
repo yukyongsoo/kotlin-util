@@ -19,10 +19,12 @@ allOpen {
 }
 
 dependencies {
-    implementation("com.querydsl:querydsl-jpa:4.4.0")
+    implementation("com.querydsl:querydsl-jpa:5.0.0")
     implementation("org.springframework.data:spring-data-jpa:2.5.3")
+    implementation("com.blazebit:blaze-persistence-integration-querydsl-expressions:1.6.6")
+    implementation("com.blazebit:blaze-persistence-integration-hibernate-5.4:1.6.6")
 
-    kaptTest("com.querydsl:querydsl-apt:4.4.0:jpa")
+    kaptTest("com.querydsl:querydsl-apt:5.0.0:jpa")
 
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa:2.5.3")
     testImplementation("org.springframework.boot:spring-boot-starter-test:2.5.3") {
@@ -30,7 +32,7 @@ dependencies {
     }
     testImplementation(project(":testContainer"))
 
-    testRuntimeOnly("mysql:mysql-connector-java:8.0.26")
+    testRuntimeOnly("mysql:mysql-connector-java:8.0.29")
 }
 
 idea {
