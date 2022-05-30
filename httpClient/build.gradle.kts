@@ -8,8 +8,6 @@ repositories {
 dependencies {
     implementation("org.springframework:spring-webflux:5.3.9")
     implementation("io.projectreactor.netty:reactor-netty-http:1.0.10")
-
-    testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
 }
 
 tasks.withType<Test> {

@@ -21,7 +21,7 @@ class QuerydslTest {
         }
 
         @RegisterExtension
-        val mysql = MysqlTestContainer
+        val mysql = MysqlTestContainer()
     }
 
     @Autowired

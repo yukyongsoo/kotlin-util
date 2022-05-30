@@ -6,7 +6,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.testcontainers:junit-jupiter:1.16.2")
+    implementation("org.testcontainers:junit-jupiter:1.17.1")
     implementation("org.testcontainers:localstack:1.17.1")
     implementation("org.testcontainers:mysql:1.17.1")
     implementation("org.junit.jupiter:junit-jupiter:5.7.2")
