@@ -1,5 +1,6 @@
 package com.yuk.common.testobject
 
+import com.github.javafaker.Faker
 import org.jeasy.random.EasyRandom
 import org.jeasy.random.EasyRandomParameters
 import org.jeasy.random.randomizers.range.DoubleRangeRandomizer
@@ -9,12 +10,14 @@ import org.jeasy.random.randomizers.range.LongRangeRandomizer
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.util.Locale
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentMap
 import kotlin.random.Random
 
 object RandomVariableFactory {
     val random: EasyRandom
+    var faker: Faker
 
     init {
         val param = EasyRandomParameters()
@@ -33,6 +36,7 @@ object RandomVariableFactory {
             .bypassSetters(true)
 
         random = EasyRandom(param)
+        faker = Faker(Locale("ko"))
     }
 
     fun getInt() = getObject<Int>()
@@ -50,6 +54,18 @@ object RandomVariableFactory {
     fun getLocalTime() = getObject<LocalTime>()
 
     fun getLocalDateTime() = getObject<LocalDateTime>()
+
+    fun getName() = faker.name().fullName()
+
+    fun getEmail() = faker.internet().emailAddress()
+
+    fun getPhoneNumber() = faker.phoneNumber().cellPhone()
+
+    fun getAddress() = faker.address().fullAddress()
+
+    fun getId() = faker.idNumber().valid()
+
+    fun getZipcode() = faker.address().zipCode()
 
     inline fun <reified T> getObject(): T {
         if (Collection::class.java.isAssignableFrom(T::class.java)) throw RuntimeException(

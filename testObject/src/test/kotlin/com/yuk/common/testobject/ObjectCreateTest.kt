@@ -9,15 +9,33 @@ class ObjectCreateTest {
     fun objectCreateTest() {
         val testObject = RandomVariableFactory.getObject<TestObject>()
 
-        val testString = RandomVariableFactory.getObject<String>()
+        val testString = RandomVariableFactory.getString()
 
-        val testInt = RandomVariableFactory.getObject<Int>()
+        val testInt = RandomVariableFactory.getInt()
 
-        val testLong = RandomVariableFactory.getObject<Long>()
+        val testLong = RandomVariableFactory.getLong()
 
-        val testFloat = RandomVariableFactory.getObject<Float>()
+        val testFloat = RandomVariableFactory.getFloat()
 
-        val testDouble = RandomVariableFactory.getObject<Double>()
+        val testDouble = RandomVariableFactory.getDouble()
+
+        val testLocalDate = RandomVariableFactory.getLocalDate()
+
+        val testLocalTime = RandomVariableFactory.getLocalTime()
+
+        val testLocalDateTime = RandomVariableFactory.getLocalDateTime()
+
+        val testEmail = RandomVariableFactory.getEmail()
+
+        val testName = RandomVariableFactory.getName()
+
+        val testAddress = RandomVariableFactory.getAddress()
+
+        val testValidId = RandomVariableFactory.getId()
+
+        val testPhoneNumber = RandomVariableFactory.getPhoneNumber()
+
+        val testZipcode = RandomVariableFactory.getZipcode()
     }
 
     @Test
