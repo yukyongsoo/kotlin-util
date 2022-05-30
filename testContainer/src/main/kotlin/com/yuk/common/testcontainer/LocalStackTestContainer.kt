@@ -19,7 +19,7 @@ open class LocalStackTestContainer : BeforeAllCallback {
         private val localstack by lazy {
             if (initialized.not()) throw RuntimeException("you not set configuration. please call initialize() first")
 
-            LocalStackContainer(DockerImageName.parse("localstack/localstack:0.13.3")).withServices(
+            LocalStackContainer(DockerImageName.parse("localstack/localstack:0.14.3")).withServices(
                 *serviceList
             )
         }
