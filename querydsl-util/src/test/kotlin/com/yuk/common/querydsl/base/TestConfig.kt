@@ -4,6 +4,7 @@ import com.blazebit.persistence.Criteria
 import com.blazebit.persistence.CriteriaBuilderFactory
 import com.blazebit.persistence.querydsl.BlazeJPAQuery
 import com.blazebit.persistence.spi.CriteriaBuilderConfiguration
+import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -31,5 +32,13 @@ class TestConfig {
         @Autowired entityManager: EntityManager
     ): BlazeJPAQuery<T> {
         return BlazeJPAQuery<T>(entityManager, getCriteriaBuilderFactory())
+    }
+
+    @Bean
+    @Scope("prototype", proxyMode = ScopedProxyMode.TARGET_CLASS)
+    fun getJPAQueryFactory(
+        @Autowired entityManager: EntityManager
+    ): JPAQueryFactory {
+        return JPAQueryFactory(entityManager)
     }
 }
