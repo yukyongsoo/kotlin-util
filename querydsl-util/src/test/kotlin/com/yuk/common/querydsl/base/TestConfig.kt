@@ -28,14 +28,6 @@ class TestConfig {
 
     @Bean
     @Scope("prototype", proxyMode = ScopedProxyMode.TARGET_CLASS)
-    fun <T> getBlazeQuery(
-        @Autowired entityManager: EntityManager
-    ): BlazeJPAQuery<T> {
-        return BlazeJPAQuery<T>(entityManager, getCriteriaBuilderFactory())
-    }
-
-    @Bean
-    @Scope("prototype", proxyMode = ScopedProxyMode.TARGET_CLASS)
     fun getJPAQueryFactory(
         @Autowired entityManager: EntityManager
     ): JPAQueryFactory {

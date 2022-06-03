@@ -1,20 +1,16 @@
 package com.yuk.common.querydsl
 
-import com.querydsl.jpa.impl.JPAQueryFactory
-import com.yuk.common.querydsl.base.QTestEntity
-import com.yuk.common.querydsl.base.TestEntity
-import com.yuk.common.querydsl.base.TestRepository
 import com.yuk.common.querydsl.base.TestRepositorySupport
-import com.yuk.common.querydsl.spring.SELECT
 import com.yuk.common.testcontainer.MysqlTestConfiguration
 import com.yuk.common.testcontainer.MysqlTestContainer
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class QuerydslTest {
+class QuerydslSpringTest {
     companion object {
         init {
             val config =
@@ -27,17 +23,11 @@ class QuerydslTest {
         val mysql = MysqlTestContainer()
     }
 
-    private val entity: QTestEntity = QTestEntity.testEntity
-
     @Autowired
-    private lateinit var jpaQueryFactory: JPAQueryFactory
+    private lateinit var testRepositorySupport: TestRepositorySupport
 
     @Test
-    fun test() {
-        val query = jpaQueryFactory SELECT entity FROM entity WHERE {
-            (entity.test EQUAL "a") AND (entity.id EQUAL 1)
-        }
-
-        query.fetchResults()
+    fun springTest() {
+        testRepositorySupport.read()
     }
 }
