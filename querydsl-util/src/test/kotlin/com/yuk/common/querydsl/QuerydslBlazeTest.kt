@@ -7,7 +7,6 @@ import com.yuk.common.querydsl.base.TestEntity
 import com.yuk.common.querydsl.blaze.SELECT
 import com.yuk.common.testcontainer.MysqlTestConfiguration
 import com.yuk.common.testcontainer.MysqlTestContainer
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 import org.springframework.beans.factory.annotation.Autowired

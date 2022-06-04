@@ -2,7 +2,6 @@ package com.yuk.common.querydsl.base
 
 import com.blazebit.persistence.Criteria
 import com.blazebit.persistence.CriteriaBuilderFactory
-import com.blazebit.persistence.querydsl.BlazeJPAQuery
 import com.blazebit.persistence.spi.CriteriaBuilderConfiguration
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.beans.factory.annotation.Autowired

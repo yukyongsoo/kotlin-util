@@ -4,7 +4,6 @@ import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.core.types.dsl.NumberExpression
 import com.querydsl.core.types.dsl.NumberPath
 
-
 infix fun <T> NumberPath<T>.EQUAL(value: T?): BooleanExpression? where T : Number, T : Comparable<*> {
     return if (value == null)
         null

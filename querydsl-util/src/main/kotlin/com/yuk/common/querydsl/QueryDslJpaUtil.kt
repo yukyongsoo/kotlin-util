@@ -3,22 +3,11 @@ package com.yuk.common.querydsl
 import com.querydsl.core.types.EntityPath
 import com.querydsl.core.types.Expression
 import com.querydsl.core.types.OrderSpecifier
-import com.querydsl.core.types.Path
 import com.querydsl.core.types.Predicate
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.BooleanExpression
-import com.querydsl.core.types.dsl.BooleanPath
-import com.querydsl.core.types.dsl.DatePath
-import com.querydsl.core.types.dsl.DateTimePath
-import com.querydsl.core.types.dsl.EnumPath
-import com.querydsl.core.types.dsl.NumberExpression
-import com.querydsl.core.types.dsl.NumberPath
-import com.querydsl.core.types.dsl.StringPath
 import com.querydsl.jpa.JPQLQuery
 import com.querydsl.jpa.impl.JPAQueryFactory
-import org.springframework.data.domain.Pageable
-import java.time.LocalDate
-import java.time.LocalDateTime
 
 infix fun <T : Any> JPAQueryFactory.SELECT(expr: Expression<T>): JPQLQuery<T> {
     return this.select(expr)
@@ -56,8 +45,7 @@ infix fun BooleanExpression?.AND(expression: Collection<BooleanExpression?>?): B
         expression.fold(this) { current, booleanExpression ->
             booleanExpression?.let { current.and(booleanExpression) } ?: current
         }
-    }
-    else this
+    } else this
 }
 
 infix fun BooleanExpression?.AND(function: () -> BooleanExpression?): BooleanExpression? {
@@ -77,8 +65,7 @@ infix fun BooleanExpression?.OR(expression: Collection<BooleanExpression?>?): Bo
         expression.fold(this) { current, booleanExpression ->
             booleanExpression?.let { current.or(booleanExpression) } ?: current
         }
-    }
-    else this
+    } else this
 }
 
 infix fun BooleanExpression?.OR(function: () -> BooleanExpression?): BooleanExpression? {
@@ -129,6 +116,6 @@ infix fun <T, V : Comparable<V>> JPQLQuery<T>.ORDERBY(orderSpecifier: OrderSpeci
 
 infix fun <T> JPQLQuery<T>.ORDERBY(
     function: () -> Array<out OrderSpecifier<*>>
-) : JPQLQuery<T> {
+): JPQLQuery<T> {
     return this.orderBy(*function())
 }

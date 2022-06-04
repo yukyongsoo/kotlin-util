@@ -2,9 +2,6 @@ package com.yuk.common.querydsl
 
 import com.querydsl.jpa.impl.JPAQueryFactory
 import com.yuk.common.querydsl.base.QTestEntity
-import com.yuk.common.querydsl.base.TestEntity
-import com.yuk.common.querydsl.base.TestRepository
-import com.yuk.common.querydsl.base.TestRepositorySupport
 import com.yuk.common.querydsl.spring.SELECT
 import com.yuk.common.testcontainer.MysqlTestConfiguration
 import com.yuk.common.testcontainer.MysqlTestContainer
@@ -33,11 +30,33 @@ class QuerydslTest {
     private lateinit var jpaQueryFactory: JPAQueryFactory
 
     @Test
-    fun test() {
+    fun `기본 조회`() {
+        val query = jpaQueryFactory SELECT entity FROM entity
+
+        query.fetch()
+
+        assert(
+            query.toString() == """
+                select testEntity
+                from TestEntity testEntity
+            """.trimIndent()
+        )
+    }
+
+    @Test
+    fun `EQUAL 조건문 테스트`() {
         val query = jpaQueryFactory SELECT entity FROM entity WHERE {
-            (entity.test EQUAL "a") AND (entity.id EQUAL 1)
+            entity.id EQUAL 1
         }
 
-        query.fetchResults()
+        query.fetch()
+
+        assert(
+            query.toString() == """
+                select testEntity
+                from TestEntity testEntity
+                where testEntity.id = ?1
+            """.trimIndent()
+        )
     }
 }

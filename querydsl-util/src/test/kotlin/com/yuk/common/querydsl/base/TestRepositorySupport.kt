@@ -1,11 +1,9 @@
 package com.yuk.common.querydsl.base
 
 import com.querydsl.core.QueryResults
-import com.querydsl.jpa.impl.JPAQueryFactory
 import com.yuk.common.querydsl.AND
 import com.yuk.common.querydsl.EQUAL
 import com.yuk.common.querydsl.FROM
-import com.yuk.common.querydsl.OR
 import com.yuk.common.querydsl.SELECT
 import com.yuk.common.querydsl.WHERE
 import com.yuk.common.querydsl.spring.SELECT
@@ -13,7 +11,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Service
 
 @Service
-open class TestRepositorySupport: QuerydslRepositorySupport(TestEntity::class.java) {
+open class TestRepositorySupport : QuerydslRepositorySupport(TestEntity::class.java) {
     private val entity: QTestEntity = QTestEntity.testEntity
 
     fun read(): QueryResults<TestEntity> {
