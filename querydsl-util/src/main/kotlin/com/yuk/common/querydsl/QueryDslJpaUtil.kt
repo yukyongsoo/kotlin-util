@@ -75,7 +75,7 @@ infix fun BooleanExpression?.OR(function: () -> BooleanExpression?): BooleanExpr
 }
 
 infix fun <T> JPQLQuery<T>.FETCHJOIN(entityPath: EntityPath<*>): JPQLQuery<T> {
-    return fetchJoin().innerJoin(entityPath)
+    return innerJoin(entityPath).fetchJoin()
 }
 
 infix fun <T> JPQLQuery<T>.JOIN(entityPath: EntityPath<*>): JPQLQuery<T> {
@@ -83,7 +83,7 @@ infix fun <T> JPQLQuery<T>.JOIN(entityPath: EntityPath<*>): JPQLQuery<T> {
 }
 
 infix fun <T> JPQLQuery<T>.FETCHLEFTJOIN(entityPath: EntityPath<*>): JPQLQuery<T> {
-    return fetchJoin().leftJoin(entityPath)
+    return leftJoin(entityPath).fetchJoin()
 }
 
 infix fun <T> JPQLQuery<T>.LEFTJOIN(entityPath: EntityPath<*>): JPQLQuery<T> {
@@ -91,7 +91,7 @@ infix fun <T> JPQLQuery<T>.LEFTJOIN(entityPath: EntityPath<*>): JPQLQuery<T> {
 }
 
 infix fun <T> JPQLQuery<T>.FETCHRIGHTJOIN(entityPath: EntityPath<*>): JPQLQuery<T> {
-    return fetchJoin().leftJoin(entityPath)
+    return rightJoin(entityPath).fetchJoin()
 }
 
 infix fun <T> JPQLQuery<T>.RIGHTJOIN(entityPath: EntityPath<*>): JPQLQuery<T> {
