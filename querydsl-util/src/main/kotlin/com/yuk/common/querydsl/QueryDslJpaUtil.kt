@@ -22,6 +22,19 @@ inline infix fun <reified T : Any> JPAQueryFactory.SELECT(function: () -> Array<
     return this.select(projection)
 }
 
+infix fun <T : Any> JPAQueryFactory.`SELECT DISTINCT`(expr: Expression<T>): JPQLQuery<T> {
+    return this.selectDistinct(expr)
+}
+
+inline infix fun <reified T : Any> JPAQueryFactory.`SELECT DISTINCT`(function: () -> Array<Expression<out Any>>): JPQLQuery<T> {
+    val projection = Projections.constructor(
+        T::class.java,
+        *function()
+    )
+
+    return this.selectDistinct(projection)
+}
+
 infix fun <T, V> JPQLQuery<T>.FROM(entityPath: EntityPath<V>): JPQLQuery<T> {
     return this.from(entityPath)
 }

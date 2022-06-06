@@ -97,6 +97,22 @@ class QuerydslTest {
     }
 
     @Test
+    fun `Select Distinct 테스트`() {
+        val query = jpaQueryFactory `SELECT DISTINCT` entity FROM entity JOIN
+            entity2 ON (entity.id EQUAL entity2.id)
+
+        query.fetch()
+
+        assert(
+            query.toString() == """
+              select distinct testEntity
+              from TestEntity testEntity
+                inner join TestEntity2 testEntity2 with testEntity.id = testEntity2.id
+            """.trimIndent()
+        )
+    }
+
+    @Test
     fun `Left 조인 테스트`() {
         val query = jpaQueryFactory SELECT entity FROM entity LEFTJOIN
             entity2 ON (entity.id EQUAL entity2.id)
@@ -139,4 +155,5 @@ class QuerydslTest {
             query.toString() == "select testEntity\nfrom TestEntity testEntity\n  inner join fetch TestEntity2 testEntity2 with testEntity.id = testEntity2.id"
         )
     }
+
 }
