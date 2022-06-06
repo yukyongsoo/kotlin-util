@@ -130,6 +130,13 @@ class QuerydslTest {
 
     @Test
     fun `페치조인 테스트`() {
-        //TODO
+        val query = jpaQueryFactory SELECT entity FROM entity FETCHJOIN
+            entity2 ON (entity.id EQUAL entity2.id)
+
+        query.fetch()
+
+        assert(
+            query.toString() == "select testEntity\nfrom TestEntity testEntity\n  inner join fetch TestEntity2 testEntity2 with testEntity.id = testEntity2.id"
+        )
     }
 }
