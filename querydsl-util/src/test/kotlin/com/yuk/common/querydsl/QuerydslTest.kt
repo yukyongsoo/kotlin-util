@@ -47,6 +47,24 @@ class QuerydslTest {
     }
 
     @Test
+    fun `스칼라 조회`() {
+        val query = jpaQueryFactory.SELECT<Long> {
+            arrayOf(
+                entity.id
+            )
+        } FROM entity
+
+        query.fetch()
+
+        assert(
+            query.toString() == """
+                select testEntity.id
+                from TestEntity testEntity
+            """.trimIndent()
+        )
+    }
+
+    @Test
     fun `조건문 테스트`() {
         val query = jpaQueryFactory SELECT entity FROM entity WHERE {
             entity.id EQUAL 1
@@ -155,5 +173,4 @@ class QuerydslTest {
             query.toString() == "select testEntity\nfrom TestEntity testEntity\n  inner join fetch TestEntity2 testEntity2 with testEntity.id = testEntity2.id"
         )
     }
-
 }
