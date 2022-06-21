@@ -12,6 +12,7 @@ dependencies {
     implementation("software.amazon.awssdk:s3")
 
     testImplementation("org.springframework.boot:spring-boot-starter-web:2.5.3")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:2.5.3")
 }
 
 tasks.withType<Test> {

@@ -1,19 +1,18 @@
 package com.yuk.common.video
 
-import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
-import org.springframework.web.multipart.MultipartFile
+import java.io.InputStream
 
 @Service
 class VideoService(
     private val fileProvider: FileProvider
 ) {
-    fun getVideo(path: VideoPathKey): Resource {
+    fun getVideo(path: VideoPathKey): Video {
         return fileProvider.getVideo(path)
     }
 
-    fun saveVideo(multipartFile: MultipartFile, path: String): VideoPathKey {
-        val savedPath = fileProvider.saveVideo(multipartFile.inputStream, path)
+    fun saveVideo(file: InputStream, path: String): VideoPathKey {
+        val savedPath = fileProvider.saveVideo(file, path)
 
         return savedPath
     }

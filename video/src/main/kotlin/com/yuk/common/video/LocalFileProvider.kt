@@ -5,8 +5,13 @@ import java.io.File
 import java.io.InputStream
 
 class LocalFileProvider : FileProvider {
-    override fun getVideo(path: VideoPathKey): InputStreamResource {
-        return InputStreamResource(File(path.path).inputStream())
+    override fun getVideo(path: VideoPathKey): Video {
+        val file = File(path.path)
+
+        return Video(
+            file.length(),
+            InputStreamResource(file.inputStream())
+        )
     }
 
     override fun saveVideo(
