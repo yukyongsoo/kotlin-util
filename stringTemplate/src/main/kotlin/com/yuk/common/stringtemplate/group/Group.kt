@@ -6,5 +6,5 @@ data class Group(
     val id: GroupId,
     val descr: String
 ) {
-    val templateIdList = mutableListOf<TemplateId>()
+    var templateIdList = setOf<TemplateId>()
 }
