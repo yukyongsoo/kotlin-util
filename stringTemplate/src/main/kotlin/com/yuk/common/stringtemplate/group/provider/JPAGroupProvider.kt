@@ -6,50 +6,50 @@ import com.yuk.common.stringtemplate.template.TemplateId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 
-class MysqlGroupProvider: GroupProvider {
+class JPAGroupProvider : GroupProvider {
     @Autowired
-    private lateinit var defaultMysqlGroupRepository: MysqlGroupRepository
+    private lateinit var groupRepository: JPAGroupRepository
 
     override fun create(id: GroupId, descr: String) {
         val entity = GroupEntity(id.value, descr)
 
-        defaultMysqlGroupRepository.save(entity)
+        groupRepository.save(entity)
     }
 
     override fun delete(id: GroupId) {
-        val entity = defaultMysqlGroupRepository.findByIdOrNull(id.value)
+        val entity = groupRepository.findByIdOrNull(id.value)
 
         if (entity != null) {
-            defaultMysqlGroupRepository.delete(entity)
+            groupRepository.delete(entity)
         }
     }
 
     override fun updateDescription(id: GroupId, descr: String) {
-        val entity = defaultMysqlGroupRepository.findByIdOrNull(id.value)
+        val entity = groupRepository.findByIdOrNull(id.value)
 
         entity?.descr = descr
     }
 
     override fun getAllExceptTemplateId(): List<Group> {
-        val entities = defaultMysqlGroupRepository.findAll()
+        val entities = groupRepository.findAll()
 
         return entities.mapNotNull(this::entityToDomain)
     }
 
     override fun getOrNull(id: GroupId): Group? {
-        val entity = defaultMysqlGroupRepository.findByIdOrNull(id.value)
+        val entity = groupRepository.findByIdOrNull(id.value)
 
         return entityToDomain(entity)
     }
 
     override fun attachTemplate(id: GroupId, templateId: TemplateId) {
-        val entity = defaultMysqlGroupRepository.findByIdOrNull(id.value)
+        val entity = groupRepository.findByIdOrNull(id.value)
 
         entity?.attachTemplate(templateId)
     }
 
     override fun detachTemplate(id: GroupId, templateId: TemplateId) {
-        val entity = defaultMysqlGroupRepository.findByIdOrNull(id.value)
+        val entity = groupRepository.findByIdOrNull(id.value)
 
         entity?.detachTemplate(templateId)
     }
