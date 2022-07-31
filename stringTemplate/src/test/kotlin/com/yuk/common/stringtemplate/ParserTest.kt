@@ -1,6 +1,6 @@
 package com.yuk.common.stringtemplate
 
-import com.yuk.common.stringtemplate.template.Parser
+import com.yuk.common.stringtemplate.parser.Parser
 import com.yuk.common.stringtemplate.template.Template
 import com.yuk.common.stringtemplate.template.TemplateId
 import org.junit.jupiter.api.RepeatedTest
@@ -12,7 +12,7 @@ class ParserTest {
 
     @Test
     fun errorOnOverflow() {
-        val template = Template(TemplateId("test"), "test {{keyword}} test2")
+        val template = Template(TemplateId("test"), "test {{keyword}} test2", TemplateId.NONE)
 
         assertThrows<IllegalArgumentException> {
             parser.getResult(template, listOf("A", "B"))
@@ -21,7 +21,7 @@ class ParserTest {
 
     @Test
     fun errorOnUnderflow() {
-        val template = Template(TemplateId("test"), "test {{keyword}} {{key word2}} test2")
+        val template = Template(TemplateId("test"), "test {{keyword}} {{key word2}} test2", TemplateId.NONE)
 
         assertThrows<IllegalArgumentException> {
             parser.getResult(template, listOf("A"))
@@ -30,7 +30,7 @@ class ParserTest {
 
     @Test
     fun parse() {
-        val template = Template(TemplateId("test"), "test {{key word}} test2")
+        val template = Template(TemplateId("test"), "test {{key word}} test2", TemplateId.NONE)
 
         val result = parser.getResult(template, listOf("A"))
 
@@ -39,7 +39,7 @@ class ParserTest {
 
     @Test
     fun parseOnlyString() {
-        val template = Template(TemplateId("test"), "test")
+        val template = Template(TemplateId("test"), "test", TemplateId.NONE)
 
         val result = parser.getResult(template, listOf())
 
@@ -48,7 +48,7 @@ class ParserTest {
 
     @Test
     fun parseOnlyKeyword() {
-        val template = Template(TemplateId("test"), "{{keyword}}")
+        val template = Template(TemplateId("test"), "{{keyword}}", TemplateId.NONE)
 
         val result = parser.getResult(template, listOf("A"))
 
@@ -57,7 +57,7 @@ class ParserTest {
 
     @RepeatedTest(1000)
     fun performance() {
-        val template = Template(TemplateId("test"), "test {{keyword}} {{key word2}} {{key word3}} {{key word4}} {{key word5}} {{key word6}} test2")
+        val template = Template(TemplateId("test"), "test {{keyword}} {{key word2}} {{key word3}} {{key word4}} {{key word5}} {{key word6}} test2", TemplateId.NONE)
 
         parser.getResult(template, listOf("A", "B", "C", "D", "E", "F"))
     }

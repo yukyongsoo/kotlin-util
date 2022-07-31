@@ -2,4 +2,4 @@ package com.yuk.common.stringtemplate.group.provider
 
 import org.springframework.data.jpa.repository.JpaRepository
 
-internal interface MysqlGroupRepository: JpaRepository<GroupEntity,String>
+internal interface JPAGroupRepository : JpaRepository<GroupEntity, String>
