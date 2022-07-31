@@ -1,4 +1,4 @@
-package com.yuk.common.stringtemplate.template
+package com.yuk.common.stringtemplate.parser
 
 sealed class Part
 

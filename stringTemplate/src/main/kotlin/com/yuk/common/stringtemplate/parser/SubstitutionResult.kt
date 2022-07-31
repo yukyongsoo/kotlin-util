@@ -1,4 +1,6 @@
-package com.yuk.common.stringtemplate.template
+package com.yuk.common.stringtemplate.parser
+
+import com.yuk.common.stringtemplate.template.TemplateId
 
 data class SubstitutionResult(
     val templateId: TemplateId,

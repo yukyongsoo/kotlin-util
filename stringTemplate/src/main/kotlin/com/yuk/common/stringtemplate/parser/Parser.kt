@@ -1,4 +1,6 @@
-package com.yuk.common.stringtemplate.template
+package com.yuk.common.stringtemplate.parser
+
+import com.yuk.common.stringtemplate.template.Template
 
 class Parser {
     private val startSubstitutionKey = "{{"
@@ -10,7 +12,7 @@ class Parser {
     ): SubstitutionResult {
         val tree = makeSyntaxTree(template.content, orderedData.toMutableList())
 
-        return SubstitutionResult(template.templateId, tree)
+        return SubstitutionResult(template.id, tree)
     }
 
     private fun makeSyntaxTree(content: String, orderedData: MutableList<String>): List<Part> {
