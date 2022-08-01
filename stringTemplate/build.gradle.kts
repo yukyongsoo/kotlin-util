@@ -15,11 +15,16 @@ plugins {
 
 allOpen {
     annotation("javax.persistence.Entity")
+    annotation("com.yuk.common.stringtemplate.AllOpen")
 }
 
 dependencies {
     compileOnly("org.springframework.data:spring-data-jpa:2.5.3")
     compileOnly("jakarta.persistence:jakarta.persistence-api:2.2.3")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-data-jpa:2.5.3")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:2.5.3")
+    testRuntimeOnly("mysql:mysql-connector-java:8.0.29")
 }
 
 tasks.withType<Test> {
