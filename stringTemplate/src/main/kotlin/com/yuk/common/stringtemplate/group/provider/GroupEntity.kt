@@ -4,8 +4,10 @@ import com.yuk.common.stringtemplate.template.TemplateId
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
+import javax.persistence.Table
 
 @Entity
+@Table(name = "template_group")
 internal class GroupEntity(
     @Id
     val id: String,
@@ -13,29 +15,32 @@ internal class GroupEntity(
     var descr: String,
 ) {
     @Column
-    var templateIds: String = ""
-        protected set
+    protected var templateIds: String = ""
 
-    @delegate:Transient
-    private val templateIdList: MutableSet<TemplateId> by lazy {
-        templateIds.split(",").filter(String::isNotBlank).mapTo(mutableSetOf()) { TemplateId(it) }
-    }
-
-    fun getTemplateIds(): Set<TemplateId> {
-        return templateIdList
-    }
-
-    fun toTemplateGroup(list: List<TemplateId>) {
-        templateIds = list.joinToString(",") { it.value }
-    }
+    @javax.persistence.Transient
+    private lateinit var _templateIdSet: MutableSet<TemplateId>
+    val templateIdSet: Set<TemplateId>
+        get() {
+            checkInit()
+            return _templateIdSet
+        }
 
     fun attachTemplate(id: TemplateId) {
-        templateIdList.add(id)
-        templateIds = templateIdList.joinToString(",") { it.value }
+        checkInit()
+        _templateIdSet.add(id)
+        templateIds = templateIdSet.joinToString(",") { it.value }
     }
 
     fun detachTemplate(id: TemplateId) {
-        templateIdList.remove(id)
-        templateIds = templateIdList.joinToString(",") { it.value }
+        checkInit()
+        _templateIdSet.remove(id)
+        templateIds = templateIdSet.joinToString(",") { it.value }
+    }
+
+    private fun checkInit() {
+        if (::_templateIdSet.isInitialized.not()) {
+            _templateIdSet =
+                templateIds.split(",").filter(String::isNotBlank).mapTo(mutableSetOf()) { TemplateId(it) }
+        }
     }
 }

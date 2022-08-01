@@ -1,9 +1,11 @@
 package com.yuk.common.stringtemplate.group
 
+import com.yuk.common.stringtemplate.AllOpen
 import com.yuk.common.stringtemplate.group.provider.GroupProvider
 import com.yuk.common.stringtemplate.template.TemplateId
 import com.yuk.common.stringtemplate.template.TemplateManager
 
+@AllOpen
 class GroupManager(
     private val groupProvider: GroupProvider,
     private val templateManager: TemplateManager
