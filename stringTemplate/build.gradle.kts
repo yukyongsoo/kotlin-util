@@ -24,6 +24,7 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa:2.5.3")
     testImplementation("org.springframework.boot:spring-boot-starter-test:2.5.3")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
     testRuntimeOnly("mysql:mysql-connector-java:8.0.29")
 }
 
