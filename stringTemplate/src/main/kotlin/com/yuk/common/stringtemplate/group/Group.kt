@@ -6,5 +6,5 @@ data class Group(
     val id: GroupId,
     val descr: String
 ) {
-    var templateIdList = setOf<TemplateId>()
+    var templateIdSet = setOf<TemplateId>()
 }

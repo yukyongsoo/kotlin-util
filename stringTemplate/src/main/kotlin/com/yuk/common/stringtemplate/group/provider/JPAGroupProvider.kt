@@ -1,11 +1,13 @@
 package com.yuk.common.stringtemplate.group.provider
 
+import com.yuk.common.stringtemplate.AllOpen
 import com.yuk.common.stringtemplate.group.Group
 import com.yuk.common.stringtemplate.group.GroupId
 import com.yuk.common.stringtemplate.template.TemplateId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 
+@AllOpen
 class JPAGroupProvider : GroupProvider {
     @Autowired
     private lateinit var groupRepository: JPAGroupRepository
@@ -60,7 +62,7 @@ class JPAGroupProvider : GroupProvider {
                 GroupId(it.id),
                 it.descr
             ).apply {
-                templateIdList = it.getTemplateIds()
+                templateIdSet = it.templateIdSet
             }
         }
     }
