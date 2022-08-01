@@ -2,7 +2,7 @@ create table template_group
 (
     id          varchar(40)  not null,
     descr       varchar(100) not null,
-    templateIds varchar(500) not null,
+    template_ids varchar(500) not null,
     primary key (id)
 );
 
@@ -13,3 +13,6 @@ create table template
     content text not null,
     primary key (id)
 );
+
+create index parent_id_idx
+    on template (parent_id);

@@ -1,10 +1,12 @@
 package com.yuk.common.stringtemplate.template.provider
 
+import com.yuk.common.stringtemplate.AllOpen
 import com.yuk.common.stringtemplate.template.Template
 import com.yuk.common.stringtemplate.template.TemplateId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 
+@AllOpen
 class JPATemplateProvider : TemplateProvider {
     @Autowired
     private lateinit var templateRepository: JPATemplateRepository
