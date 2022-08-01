@@ -1,9 +1,11 @@
 package com.yuk.common.stringtemplate.template
 
+import com.yuk.common.stringtemplate.AllOpen
 import com.yuk.common.stringtemplate.parser.Parser
 import com.yuk.common.stringtemplate.parser.SubstitutionResult
 import com.yuk.common.stringtemplate.template.provider.TemplateProvider
 
+@AllOpen
 class TemplateManager(
     private val templateProvider: TemplateProvider
 ) {
