@@ -38,4 +38,8 @@ class GroupManager(
         return groupProvider.getOrNull(id)
             ?: throw IllegalArgumentException("Group not found: $id")
     }
+
+    fun delete(id: GroupId) {
+        groupProvider.delete(id)
+    }
 }
