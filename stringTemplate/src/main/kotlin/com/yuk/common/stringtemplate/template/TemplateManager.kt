@@ -34,6 +34,17 @@ class TemplateManager(
         templateProvider.create(id, content, parentId)
     }
 
+    fun updateOnlyStringPart(id: TemplateId, content: String) {
+        val newTree = parser.makeSyntaxTree(content)
+
+        val template = get(id)
+        val currentTree = parser.makeSyntaxTree(template.content)
+
+        parser.compareTree(currentTree, newTree)
+
+        templateProvider.updateContent(id, content)
+    }
+
     fun attachChild(parentId: TemplateId, childId: TemplateId) {
         templateProvider.attachChild(parentId, childId)
     }
