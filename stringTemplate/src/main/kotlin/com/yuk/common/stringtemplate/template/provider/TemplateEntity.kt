@@ -11,7 +11,7 @@ internal class TemplateEntity(
     @Id
     val id: String,
     @Column
-    val content: String
+    var content: String
 ) {
     @Column
     var parentId: String? = null

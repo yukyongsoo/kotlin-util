@@ -43,6 +43,12 @@ class JPATemplateProvider : TemplateProvider {
         templateRepository.save(entity)
     }
 
+    override fun updateContent(id: TemplateId, content: String) {
+        templateRepository.findByIdOrNull(id.value)?.let {
+            it.content = content
+        }
+    }
+
     override fun getChild(parentId: TemplateId): List<Template> {
         return templateRepository.findAllByParentId(parentId.value)
             .mapNotNull(this::entityToDomain)

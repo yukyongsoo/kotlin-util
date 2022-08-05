@@ -1,9 +1,9 @@
 package com.yuk.common.stringtemplate
 
+import com.yuk.common.stringtemplate.parser.KeywordPart
 import com.yuk.common.stringtemplate.parser.Parser
 import com.yuk.common.stringtemplate.template.Template
 import com.yuk.common.stringtemplate.template.TemplateId
-import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
@@ -55,23 +55,39 @@ class ParserTest {
         assert(result.toString() == "A")
     }
 
-    @RepeatedTest(1000)
-    fun performance() {
-        val template = Template(TemplateId("test"), "test {{keyword}} {{key word2}} {{key word3}} {{key word4}} {{key word5}} {{key word6}} test2", TemplateId.NONE)
-
-        parser.getResult(template, listOf("A", "B", "C", "D", "E", "F"))
+    @Test
+    fun compareTree() {
+        parser.compareTree(
+            TestObjectFactory.getPartList(),
+            TestObjectFactory.getPartList()
+        )
     }
 
-    @RepeatedTest(1000)
-    fun replacePerformance() {
-        val content = "test {{keyword}} {{key word2}} {{key word3}} {{key word4}} {{key word5}} {{key word6}}    test2"
+    @Test
+    fun compareTreeSizeError() {
+        val newList = TestObjectFactory.getPartList().toMutableList().apply {
+            add(KeywordPart("{{test}}", ""))
+        }
 
-        content
-            .replace("{{keyword}}", "A")
-            .replace("{{key word2}}", "B")
-            .replace("{{key word3}}", "C")
-            .replace("{{key word4}}", "D")
-            .replace("{{key word5}}", "E")
-            .replace("{{key word6}}", "F")
+        assertThrows<IllegalArgumentException> {
+            parser.compareTree(
+                TestObjectFactory.getPartList(),
+                newList
+            )
+        }
+    }
+
+    @Test
+    fun compareTreeKeywordError() {
+        val newList = TestObjectFactory.getPartList().toMutableList().apply {
+            set(1, KeywordPart("{{test}}", ""))
+        }
+
+        assertThrows<IllegalArgumentException> {
+            parser.compareTree(
+                TestObjectFactory.getPartList(),
+                newList
+            )
+        }
     }
 }
