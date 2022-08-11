@@ -24,18 +24,6 @@ class ObjectCreateTest {
         val testLocalTime = RandomVariableFactory.getLocalTime()
 
         val testLocalDateTime = RandomVariableFactory.getLocalDateTime()
-
-        val testEmail = RandomVariableFactory.getEmail()
-
-        val testName = RandomVariableFactory.getName()
-
-        val testAddress = RandomVariableFactory.getAddress()
-
-        val testValidId = RandomVariableFactory.getId()
-
-        val testPhoneNumber = RandomVariableFactory.getPhoneNumber()
-
-        val testZipcode = RandomVariableFactory.getZipcode()
     }
 
     @Test
