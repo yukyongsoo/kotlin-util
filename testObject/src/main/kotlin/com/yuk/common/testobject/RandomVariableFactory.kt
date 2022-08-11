@@ -64,6 +64,10 @@ object RandomVariableFactory {
     }
 
     inline fun <reified T : Collection<S>, reified S> getCollection(): T {
+        if (S::class.java.isInterface) {
+            throw RuntimeException("can't create Interface Type Parameter. need concrete type")
+        }
+
         val size = Random.nextInt(1, 10)
 
         val array = Array<S>(size) {
@@ -74,21 +78,34 @@ object RandomVariableFactory {
     }
 
     inline fun <reified T, S> newInstance(array: Array<S>): T {
-        return if (MutableSet::class.java.isAssignableFrom(T::class.java)) {
-            mutableSetOf(*array) as T
-        } else if (Set::class.java.isAssignableFrom(T::class.java)) {
-            setOf(*array) as T
-        } else if (MutableList::class.java.isAssignableFrom(T::class.java)) {
-            mutableListOf(*array) as T
-        } else if (List::class.java.isAssignableFrom(T::class.java)) {
-            listOf(*array) as T
-        } else throw RuntimeException("can't determine ${T::class.java}")
+        return when {
+            MutableSet::class.java.isAssignableFrom(T::class.java) -> {
+                mutableSetOf(*array) as T
+            }
+            Set::class.java.isAssignableFrom(T::class.java) -> {
+                setOf(*array) as T
+            }
+            MutableList::class.java.isAssignableFrom(T::class.java) -> {
+                mutableListOf(*array) as T
+            }
+            List::class.java.isAssignableFrom(T::class.java) -> {
+                listOf(*array) as T
+            }
+            Collection::class.java.isAssignableFrom(T::class.java) -> {
+                listOf(*array) as T
+            }
+            else -> throw RuntimeException("can't determine ${T::class.java}")
+        }
     }
 
-    inline fun <reified T : Map<K, V>, reified K, reified V> getMap(): T {
+    inline fun <reified T : Map<K, V>, reified K : Any?, reified V : Any?> getMap(): T {
         val size = Random.nextInt(1, 10)
 
         val array = Array<Pair<K, V>>(size) {
+            if (K::class.java.isInterface || V::class.java.isInterface) {
+                throw RuntimeException("can't create Interface Type Parameter. need concrete type")
+            }
+
             random.nextObject(K::class.java) to random.nextObject(V::class.java)
         }
 
