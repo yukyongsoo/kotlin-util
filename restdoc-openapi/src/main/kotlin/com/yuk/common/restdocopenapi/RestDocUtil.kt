@@ -1,35 +1,13 @@
 package com.yuk.common.restdocopenapi
 
 import com.epages.restdocs.apispec.HeaderDescriptorWithType
-import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document
 import com.epages.restdocs.apispec.ParameterDescriptorWithType
-import com.epages.restdocs.apispec.ResourceDocumentation.headerWithName
-import com.epages.restdocs.apispec.ResourceDocumentation.parameterWithName
-import com.epages.restdocs.apispec.ResourceDocumentation.resource
+import com.epages.restdocs.apispec.ResourceDocumentation
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder
 import com.epages.restdocs.apispec.SimpleType
-import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler
 import org.springframework.restdocs.payload.FieldDescriptor
 import org.springframework.restdocs.payload.JsonFieldType
-import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
-import org.springframework.restdocs.payload.PayloadDocumentation.subsectionWithPath
-
-fun document(
-    name: String,
-    description: String,
-    vararg documents: Documents
-): RestDocumentationResultHandler {
-    var builder = ResourceSnippetParametersBuilder().description(description)
-
-    documents.forEach {
-        it.init(builder)
-        builder = it.build()
-    }
-
-    return document(
-        name, description, false, resource(builder.build())
-    )
-}
+import org.springframework.restdocs.payload.PayloadDocumentation
 
 abstract class Documents {
     protected lateinit var builder: ResourceSnippetParametersBuilder
@@ -40,7 +18,6 @@ abstract class Documents {
 
     abstract fun build(): ResourceSnippetParametersBuilder
 }
-
 class Headers(private vararg val header: HeaderDescriptorWithType) : Documents() {
     override fun build(): ResourceSnippetParametersBuilder {
         return builder.requestHeaders(*header)
@@ -67,7 +44,7 @@ private fun header(
     description: String = "",
     optional: Boolean = false
 ): HeaderDescriptorWithType {
-    val header = headerWithName(name).description(description).type(type)
+    val header = ResourceDocumentation.headerWithName(name).description(description).type(type)
     return if (optional) header.optional() else header
 }
 
@@ -91,7 +68,7 @@ private fun path(
     description: String = "",
     optional: Boolean = false
 ): ParameterDescriptorWithType {
-    val path = parameterWithName(name).description(description).type(type)
+    val path = ResourceDocumentation.parameterWithName(name).description(description).type(type)
     return if (optional) path.optional() else path
 }
 
@@ -110,7 +87,7 @@ fun intParam(name: String, description: String = "", optional: Boolean = false):
 }
 
 private fun param(name: String, type: SimpleType, description: String, optional: Boolean): ParameterDescriptorWithType {
-    val param = parameterWithName(name).type(type).description(description)
+    val param = ResourceDocumentation.parameterWithName(name).type(type).description(description)
     return if (optional) param.optional() else param
 }
 
@@ -144,7 +121,8 @@ abstract class Section(
         val list = mutableListOf<FieldDescriptor>()
 
         if (parent.isNotBlank() && name.isNotBlank()) {
-            var section = subsectionWithPath("$parent.$name").type(type).description(description)
+            var section = PayloadDocumentation.subsectionWithPath("$parent.$name")
+                .type(type).description(description)
             section = if (optional) section.optional() else section
             list.add(section)
         }
@@ -195,7 +173,7 @@ abstract class Field(
 
     override fun build(): List<FieldDescriptor> {
         val fieldName = if (parent.isNotBlank()) "$parent.$name" else name
-        var field = fieldWithPath(fieldName).type(type).description(description)
+        var field = PayloadDocumentation.fieldWithPath(fieldName).type(type).description(description)
         field = if (optional) field.optional() else field
         return listOf(field)
     }
