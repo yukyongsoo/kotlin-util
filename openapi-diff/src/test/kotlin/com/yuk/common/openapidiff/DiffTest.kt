@@ -9,7 +9,7 @@ class DiffTest {
     fun webUrlTest() {
         val maker = OpenApiDiff()
         maker.diff(
-            "http://localhost:5000/api-docs",
+            "http://api.product-inspection.stg-bunjang.co.kr/api-docs",
             "http://localhost:5000/api-docs"
         )
 

@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @WebMvcTest
 @AutoConfigureRestDocs
 @AutoConfigureMockMvc(addFilters = false)
-class RestDocSample {
+class MockMvcRestDocSample {
     @Autowired
     private lateinit var mockMvc: MockMvc
 
