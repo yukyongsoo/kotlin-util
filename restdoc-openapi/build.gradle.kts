@@ -16,6 +16,8 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test:2.7.0")
     testImplementation("org.springframework.boot:spring-boot-starter-web:2.7.0")
+    testImplementation("org.springframework.boot:spring-boot-starter-webflux:2.7.0")
+
 }
 
 tasks.withType<Test> {
