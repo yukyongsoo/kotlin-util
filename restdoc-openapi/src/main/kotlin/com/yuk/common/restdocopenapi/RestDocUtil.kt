@@ -38,6 +38,10 @@ fun intHeader(name: String, description: String = "", optional: Boolean = false)
     return header(name, SimpleType.INTEGER, description, optional)
 }
 
+fun boolHeader(name: String, description: String = "", optional: Boolean = false): HeaderDescriptorWithType {
+    return header(name, SimpleType.BOOLEAN, description, optional)
+}
+
 private fun header(
     name: String,
     type: SimpleType,
@@ -62,6 +66,10 @@ fun integerPath(name: String, description: String = "", optional: Boolean = fals
     return path(name, SimpleType.INTEGER, description, optional)
 }
 
+fun boolPath(name: String, description: String = "", optional: Boolean = false): ParameterDescriptorWithType {
+    return path(name, SimpleType.BOOLEAN, description, optional)
+}
+
 private fun path(
     name: String,
     type: SimpleType,
@@ -84,6 +92,10 @@ fun stringParam(name: String, description: String = "", optional: Boolean = fals
 
 fun intParam(name: String, description: String = "", optional: Boolean = false): ParameterDescriptorWithType {
     return param(name, SimpleType.INTEGER, description, optional)
+}
+
+fun boolParam(name: String, description: String = "", optional: Boolean = false): ParameterDescriptorWithType {
+    return param(name, SimpleType.BOOLEAN, description, optional)
 }
 
 private fun param(name: String, type: SimpleType, description: String, optional: Boolean): ParameterDescriptorWithType {
