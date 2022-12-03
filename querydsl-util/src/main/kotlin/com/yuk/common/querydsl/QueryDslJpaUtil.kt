@@ -3,9 +3,11 @@ package com.yuk.common.querydsl
 import com.querydsl.core.types.EntityPath
 import com.querydsl.core.types.Expression
 import com.querydsl.core.types.OrderSpecifier
+import com.querydsl.core.types.Path
 import com.querydsl.core.types.Predicate
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.BooleanExpression
+import com.querydsl.core.types.dsl.ComparableExpression
 import com.querydsl.jpa.JPQLQuery
 import com.querydsl.jpa.impl.JPAQueryFactory
 
@@ -131,4 +133,22 @@ infix fun <T> JPQLQuery<T>.ORDERBY(
     function: () -> Array<out OrderSpecifier<*>>
 ): JPQLQuery<T> {
     return this.orderBy(*function())
+}
+
+infix fun <T> JPQLQuery<T>.GROUPBY(
+    path: Path<*>
+): JPQLQuery<T> {
+    return this.groupBy(path)
+}
+
+infix fun <T> JPQLQuery<T>.HAVING(
+    expr: BooleanExpression?
+): JPQLQuery<T> {
+    return this.having(expr)
+}
+
+infix fun <T : Comparable<Nothing>?> ComparableExpression<T>.EQUAL(value: T): BooleanExpression? {
+    return if (value == null)
+        null
+    else eq(value)
 }
