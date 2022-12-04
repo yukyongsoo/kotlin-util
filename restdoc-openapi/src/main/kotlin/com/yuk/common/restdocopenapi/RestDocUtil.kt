@@ -132,7 +132,7 @@ abstract class Section(
     override fun build(): List<FieldDescriptor> {
         val list = mutableListOf<FieldDescriptor>()
 
-        if (parent.isNotBlank() && name.isNotBlank()) {
+        if (name.isNotBlank()) {
             var section = PayloadDocumentation.subsectionWithPath("$parent.$name")
                 .type(type).description(description)
             section = if (optional) section.optional() else section
@@ -149,6 +149,7 @@ abstract class Section(
 
             list.addAll(it.build())
         }
+
         return list
     }
 
