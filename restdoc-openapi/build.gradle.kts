@@ -1,5 +1,5 @@
 group = "com.yuk.common"
-version = "0.1-SNAPSHOT"
+version = "0.2-SNAPSHOT"
 
 plugins {
     id("com.epages.restdocs-api-spec") version "0.16.2"

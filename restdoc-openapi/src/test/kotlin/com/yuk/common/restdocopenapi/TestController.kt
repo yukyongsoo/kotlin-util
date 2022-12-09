@@ -15,8 +15,20 @@ class TestController {
         @PathVariable id: Int,
         @RequestParam param: String,
         @RequestBody body: TestRequestBody
-    ): ResponseEntity<TestResponseBody> {
-        val responseBody = TestResponseBody(listOf(), "message", "code")
+    ): ResponseEntity<NestedTestResponseBody<List<NestedTestResponseBody<TestResponseBody>>>> {
+        val responseBody = NestedTestResponseBody(
+            "message",
+            "code",
+            listOf<NestedTestResponseBody<TestResponseBody>>(
+                NestedTestResponseBody(
+                    "aaa",
+                    "bbb",
+                    TestResponseBody(
+                        listOf(), "message", "code"
+                    )
+                )
+            )
+        )
 
         val response = ResponseEntity.ok()
             .header("x-header", "AAAA")
@@ -49,5 +61,11 @@ class TestController {
         val data: List<String>,
         val message: String,
         val code: String
+    )
+
+    data class NestedTestResponseBody<T>(
+        val message: String,
+        val code: String,
+        val data: T
     )
 }
