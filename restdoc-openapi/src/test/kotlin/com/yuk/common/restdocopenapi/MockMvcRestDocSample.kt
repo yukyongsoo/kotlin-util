@@ -38,39 +38,40 @@ class MockMvcRestDocSample {
                 .param("param", "aaa")
         )
             .andExpect(status().isOk)
-            .andDo(
-                document(
-                    name = "asdf",
-                    description = "asdf",
-                    Headers(
-                        stringHeader("X-PLATFORM", "플랫폼 증명값"),
-                    ),
-                    Paths(
-                        integerPath("id", description = "id")
-                    ),
-                    Params(
-                        stringParam("param", description = "param"),
-                    ),
-                    RequestBody(
-                        ObjectSection(
-                            NumberField("categoryId", "문제 식별자"),
-                            StringField("content", "버그 제보 내용"),
-                        ),
-                    ),
-                    ResponseHeader(
-                        stringHeader("x-header"),
-                    ),
-                    ResponseBody(
-                        ObjectSection(
-                            ArraySection(
-                                name = "data",
-                                description = "String"
-                            ),
-                            StringField("code", "에러 코드", true),
-                            StringField("message", "에러 메시지", true),
-                        ),
-                    )
-                ),
-            )
+            .andDo {
+                document(it) {
+                    name = ""
+                    description = ""
+                    request {
+                        header {
+                            string("X-PLATFORM", "플랫폼 증명값")
+                        }
+                        path {
+                            number("id", description = "id")
+                        }
+                        query {
+                            string("param", description = "param")
+                        }
+                        body {
+                            objects {
+                                number("categoryId", "문제 식별자")
+                                string("content", "버그 제보 내용")
+                            }
+                        }
+                    }
+                    response {
+                        header {
+                            string("x-header")
+                        }
+                        body {
+                            objects {
+                                string("code", "에러 코드", true)
+                                string("message", "에러 메시지", true)
+                                stringArray("data", "string type Array")
+                            }
+                        }
+                    }
+                }
+            }
     }
 }

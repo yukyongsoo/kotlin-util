@@ -27,39 +27,52 @@ class WebTestClientResDocSample {
             .bodyValue(request)
             .exchange()
             .expectStatus().isOk
-            .expectBody<TestController.TestResponseBody>()
+            .expectBody<TestController.NestedTestResponseBody<List<TestController.NestedTestResponseBody<TestController.TestResponseBody>>>>()
             .consumeWith {
-                webTestDocument(
-                    it,
-                    name = "문제 버그 제보하기", description = "문제 버그 제보하기",
-                    Headers(
-                        stringHeader("X-PLATFORM", "플랫폼 증명값"),
-                    ),
-                    Paths(
-                        integerPath("id", description = "id")
-                    ),
-                    Params(
-                        stringParam("param", description = "param"),
-                    ),
-                    RequestBody(
-                        ObjectSection(
-                            NumberField("categoryId", "문제 식별자"),
-                            StringField("content", "버그 제보 내용"),
-                        ),
-                    ),
-                    ResponseHeader(
-                        stringHeader("x-header"),
-                    ),
-                    ResponseBody(
-                        ObjectSection(
-                            ArraySection(
-                                name = "data", description = "String"
-                            ),
-                            StringField("code", "에러 코드", true),
-                            StringField("message", "에러 메시지", true),
-                        ),
-                    ),
-                )
+                document(it) {
+                    name = ""
+                    description = ""
+                    request {
+                        header {
+                            string("X-PLATFORM", "플랫폼 증명값")
+                        }
+                        path {
+                            number("id", description = "id")
+                        }
+                        query {
+                            string("param", description = "param")
+                        }
+                        body {
+                            objects {
+                                number("categoryId", "문제 식별자")
+                                string("content", "버그 제보 내용")
+                            }
+                        }
+                    }
+                    response {
+                        header {
+                            string("x-header")
+                        }
+                        body {
+                            objects {
+                                string("code", "에러 코드", true)
+                                string("message", "에러 메시지", true)
+                                // TODO:: array and object combine
+                                array("data") {
+                                    objects("") {
+                                        string("code", "에러 코드", true)
+                                        string("message", "에러 메시지", true)
+                                        objects("data") {
+                                            stringArray("data")
+                                            string("code", "에러 코드", true)
+                                            string("message", "에러 메시지", true)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
     }
 }
