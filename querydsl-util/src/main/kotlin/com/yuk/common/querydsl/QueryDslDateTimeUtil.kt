@@ -2,6 +2,7 @@ package com.yuk.common.querydsl
 
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.core.types.dsl.DatePath
+import com.querydsl.core.types.dsl.DateTimeExpression
 import com.querydsl.core.types.dsl.DateTimePath
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -9,11 +10,24 @@ import java.time.LocalDateTime
 infix fun DateTimePath<LocalDateTime>.EQUAL(localDateTime: LocalDateTime?): BooleanExpression? {
     return eq(localDateTime)
 }
+
+infix fun DateTimePath<LocalDateTime>.EQUAL(localDateTime: DateTimeExpression<LocalDateTime>?): BooleanExpression? {
+    return eq(localDateTime)
+}
+
 infix fun DateTimePath<LocalDateTime>.BEFORE(localDateTime: LocalDateTime?): BooleanExpression? {
     return before(localDateTime)
 }
 
+infix fun DateTimePath<LocalDateTime>.BEFORE(localDateTime: DateTimeExpression<LocalDateTime>?): BooleanExpression? {
+    return before(localDateTime)
+}
+
 infix fun DateTimePath<LocalDateTime>.AFTER(localDateTime: LocalDateTime?): BooleanExpression? {
+    return after(localDateTime)
+}
+
+infix fun DateTimePath<LocalDateTime>.AFTER(localDateTime: DateTimeExpression<LocalDateTime>?): BooleanExpression? {
     return after(localDateTime)
 }
 
