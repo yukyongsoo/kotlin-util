@@ -22,7 +22,19 @@ infix fun <T> NumberPath<T>.`=`(value: T?): BooleanExpression? where T : Number,
     else eq(value)
 }
 
+infix fun <T> NumberPath<T>.`=`(value: NumberExpression<T>?): BooleanExpression? where T : Number, T : Comparable<*> {
+    return if (value == null)
+        null
+    else eq(value)
+}
+
 infix fun <T> NumberPath<T>.GOE(value: T?): BooleanExpression? where T : Number, T : Comparable<*> {
+    return if (value == null)
+        null
+    else goe(value)
+}
+
+infix fun <T> NumberPath<T>.GOE(value: NumberExpression<T>?): BooleanExpression? where T : Number, T : Comparable<*> {
     return if (value == null)
         null
     else goe(value)
@@ -34,7 +46,19 @@ infix fun <T> NumberPath<T>.`GREATERTHAN`(value: T?): BooleanExpression? where T
     else gt(value)
 }
 
+infix fun <T> NumberPath<T>.`GREATERTHAN`(value: NumberExpression<T>?): BooleanExpression? where T : Number, T : Comparable<*> {
+    return if (value == null)
+        null
+    else gt(value)
+}
+
 infix fun <T> NumberPath<T>.LOE(value: T?): BooleanExpression? where T : Number, T : Comparable<*> {
+    return if (value == null)
+        null
+    else loe(value)
+}
+
+infix fun <T> NumberPath<T>.LOE(value: NumberExpression<T>?): BooleanExpression? where T : Number, T : Comparable<*> {
     return if (value == null)
         null
     else loe(value)
@@ -44,6 +68,18 @@ infix fun <T> NumberPath<T>.`LESSTHAN`(value: T?): BooleanExpression? where T : 
     return if (value == null)
         null
     else lt(value)
+}
+
+infix fun <T> NumberPath<T>.`LESSTHAN`(value: NumberExpression<T>?): BooleanExpression? where T : Number, T : Comparable<*> {
+    return if (value == null)
+        null
+    else lt(value)
+}
+
+infix fun <T> NumberPath<T>.NOTEQUAL(value: T?): BooleanExpression? where T : Number, T : Comparable<*> {
+    return if (value == null)
+        null
+    else ne(value)
 }
 
 infix fun <T> NumberPath<T>.NOTEQUAL(value: NumberExpression<T>?): BooleanExpression? where T : Number, T : Comparable<*> {

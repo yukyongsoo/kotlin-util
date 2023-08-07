@@ -1,6 +1,7 @@
 package com.yuk.common.querydsl
 
 import com.querydsl.core.types.dsl.BooleanExpression
+import com.querydsl.core.types.dsl.StringExpression
 import com.querydsl.core.types.dsl.StringPath
 
 infix fun StringPath.EQUAL(value: String?): BooleanExpression? {
@@ -9,7 +10,31 @@ infix fun StringPath.EQUAL(value: String?): BooleanExpression? {
     else eq(value)
 }
 
+infix fun StringPath.EQUAL(value: StringExpression?): BooleanExpression? {
+    return if (value == null)
+        null
+    else eq(value)
+}
+
+infix fun StringPath.NOTEQUAL(value: String?): BooleanExpression? {
+    return if (value == null)
+        null
+    else ne(value)
+}
+
+infix fun StringPath.NOTEQUAL(value: StringExpression?): BooleanExpression? {
+    return if (value == null)
+        null
+    else ne(value)
+}
+
 infix fun StringPath.`=`(value: String?): BooleanExpression? {
+    return if (value == null)
+        null
+    else `in`(value)
+}
+
+infix fun StringPath.`=`(value: StringExpression?): BooleanExpression? {
     return if (value == null)
         null
     else `in`(value)

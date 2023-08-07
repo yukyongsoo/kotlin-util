@@ -14,3 +14,15 @@ infix fun BooleanPath.NOTEQUAL(value: Boolean?): BooleanExpression? {
         null
     else ne(value)
 }
+
+infix fun BooleanPath.EQUAL(value: BooleanExpression?): BooleanExpression? {
+    return if (value == null)
+        null
+    else eq(value)
+}
+
+infix fun BooleanPath.NOTEQUAL(value: BooleanExpression?): BooleanExpression? {
+    return if (value == null)
+        null
+    else ne(value)
+}
