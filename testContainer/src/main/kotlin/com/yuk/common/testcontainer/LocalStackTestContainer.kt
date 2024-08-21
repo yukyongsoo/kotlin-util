@@ -20,24 +20,25 @@ open class LocalStackTestContainer : BeforeAllCallback {
             if (initialized.not()) throw RuntimeException("you not set configuration. please call initialize() first")
 
             LocalStackContainer(DockerImageName.parse("localstack/localstack:0.14.3")).withServices(
-                *serviceList
+                *serviceList,
             )
         }
     }
 
-    fun getEndPoint(service: LocalStackContainer.Service): AwsClientBuilder.EndpointConfiguration {
-        return localstack.getEndpointConfiguration(service)
+    fun getEndPoint(service: LocalStackContainer.Service): AwsClientBuilder.EndpointConfiguration =
+        localstack.getEndpointConfiguration(service)
             ?: throw RuntimeException("end point not found. did you register service?")
-    }
 
     fun start() {
-        if (localstack.isRunning.not())
+        if (localstack.isRunning.not()) {
             localstack.start()
+        }
     }
 
     fun stop() {
-        if (localstack.isRunning)
+        if (localstack.isRunning) {
             localstack.stop()
+        }
     }
 
     override fun beforeAll(context: ExtensionContext?) {

@@ -1,12 +1,12 @@
 plugins {
-    val kotlinVersion = "1.5.21"
+    val kotlinVersion = "2.0.0"
 
     kotlin("jvm") version kotlinVersion
     kotlin("kapt") version kotlinVersion
 
     idea
 
-    id("org.jmailen.kotlinter") version "3.2.0"
+    id("org.jmailen.kotlinter") version "4.4.1"
 }
 
 allprojects {
@@ -25,9 +25,8 @@ subprojects {
 
     dependencies {
         implementation("org.jetbrains.kotlin:kotlin-reflect")
-        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-        testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
+        testImplementation("org.junit.jupiter:junit-jupiter:5.11.0")
     }
 
     java.sourceCompatibility = JavaVersion.VERSION_1_8
@@ -40,13 +39,12 @@ subprojects {
     }
 
     tasks.withType<Wrapper> {
-        gradleVersion = "7.1.1"
+        gradleVersion = "8.3"
     }
 }
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.11.0")
 }

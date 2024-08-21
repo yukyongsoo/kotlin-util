@@ -101,7 +101,7 @@ class HolidayCalculatorTest {
 
         val day = nonCachedCalc.calculateAfterBusinessDay(start, end)
 
-        assert(day == 4)
+        assert(day == 5)
     }
 
     @Test
@@ -121,7 +121,7 @@ class HolidayCalculatorTest {
 
         val dateTime = nonCachedCalc.getDateAfterBusinessDay(start, 4)
 
-        val targetDate = LocalDateTime.of(2022, 1, 8, 0, 0, 0)
+        val targetDate = LocalDateTime.of(2022, 1, 7, 0, 0, 0)
 
         assert(targetDate == dateTime)
     }

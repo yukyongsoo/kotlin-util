@@ -20,13 +20,15 @@ class WebTestClientResDocSample {
     fun test() {
         val request = TestController.TestRequestBody(1, "111")
 
-        webTestClient.patch()
+        webTestClient
+            .patch()
             // Do not use SAM or direct build URI object
             .uri("/{id}?param={param}", 1, "aaa")
             .header("X-PLATFORM", "AAAAA")
             .bodyValue(request)
             .exchange()
-            .expectStatus().isOk
+            .expectStatus()
+            .isOk
             .expectBody<TestController.NestedTestResponseBody<List<TestController.NestedTestResponseBody<TestController.TestResponseBody>>>>()
             .consumeWith {
                 document(it) {

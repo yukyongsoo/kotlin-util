@@ -59,34 +59,36 @@ class ParserTest {
     fun compareTree() {
         parser.compareTree(
             TestObjectFactory.getPartList(),
-            TestObjectFactory.getPartList()
+            TestObjectFactory.getPartList(),
         )
     }
 
     @Test
     fun compareTreeSizeError() {
-        val newList = TestObjectFactory.getPartList().toMutableList().apply {
-            add(KeywordPart("{{test}}", ""))
-        }
+        val newList =
+            TestObjectFactory.getPartList().toMutableList().apply {
+                add(KeywordPart("{{test}}", ""))
+            }
 
         assertThrows<IllegalArgumentException> {
             parser.compareTree(
                 TestObjectFactory.getPartList(),
-                newList
+                newList,
             )
         }
     }
 
     @Test
     fun compareTreeKeywordError() {
-        val newList = TestObjectFactory.getPartList().toMutableList().apply {
-            set(1, KeywordPart("{{test}}", ""))
-        }
+        val newList =
+            TestObjectFactory.getPartList().toMutableList().apply {
+                set(1, KeywordPart("{{test}}", ""))
+            }
 
         assertThrows<IllegalArgumentException> {
             parser.compareTree(
                 TestObjectFactory.getPartList(),
-                newList
+                newList,
             )
         }
     }

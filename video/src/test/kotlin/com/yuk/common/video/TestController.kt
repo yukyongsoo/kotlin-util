@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile
 
 @RestController
 class TestController(
-    private val videoService: VideoService
+    private val videoService: VideoService,
 ) {
     @GetMapping
     fun getTest(): ResponseEntity<Resource> {
@@ -27,9 +27,7 @@ class TestController(
     }
 
     @PostMapping
-    fun saveTest(
-        multipartFile: MultipartFile
-    ) {
+    fun saveTest(multipartFile: MultipartFile) {
         videoService.saveVideo(multipartFile.inputStream, "D:\\tmp\\movie.mp4")
     }
 }

@@ -10,18 +10,12 @@ class TestService2 {
     fun noReturn(string: String) {
     }
 
-    fun a(string: String): String {
-        return "Test2.a"
-    }
+    fun a(string: String): String = "Test2.a"
 
     fun b(string: String) {
     }
 
-    fun c(): String {
-        return "Test2.c"
-    }
+    fun c(): String = "Test2.c"
 
-    fun cc(): Int {
-        return 1
-    }
+    fun cc(): Int = 1
 }

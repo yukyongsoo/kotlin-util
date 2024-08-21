@@ -15,43 +15,59 @@ import java.nio.ByteBuffer
 
 class LocalStackSupport(
     sqsEndpoint: AwsClientBuilder.EndpointConfiguration,
-    kinesisEndpoint: AwsClientBuilder.EndpointConfiguration
+    kinesisEndpoint: AwsClientBuilder.EndpointConfiguration,
 ) {
-    private val sqs = AmazonSQSClientBuilder.standard()
-        .withEndpointConfiguration(sqsEndpoint).build()
+    private val sqs =
+        AmazonSQSClientBuilder
+            .standard()
+            .withEndpointConfiguration(sqsEndpoint)
+            .build()
 
-    private val kinesis = AmazonKinesisClientBuilder.standard()
-        .withEndpointConfiguration(kinesisEndpoint).build()
+    private val kinesis =
+        AmazonKinesisClientBuilder
+            .standard()
+            .withEndpointConfiguration(kinesisEndpoint)
+            .build()
 
     fun createQueue(name: String = "test-sqs") {
-        val request = CreateQueueRequest(name)
-            .addAttributesEntry("MessageRetentionPeriod", "86400")
+        val request =
+            CreateQueueRequest(name)
+                .addAttributesEntry("MessageRetentionPeriod", "86400")
 
         sqs.createQueue(request)
     }
 
-    fun sendSqsMessage(queueName: String = "test-sqs", message: String) {
-        val request = SendMessageRequest(
-            sqs.getQueueUrl(queueName).queueUrl,
-            message
-        )
+    fun sendSqsMessage(
+        queueName: String = "test-sqs",
+        message: String,
+    ) {
+        val request =
+            SendMessageRequest(
+                sqs.getQueueUrl(queueName).queueUrl,
+                message,
+            )
 
         sqs.sendMessage(request)
     }
 
     fun readSqsMessage(queueName: String = "test-sqs"): List<String> {
-        val request = ReceiveMessageRequest(
-            sqs.getQueueUrl(queueName).queueUrl
-        )
+        val request =
+            ReceiveMessageRequest(
+                sqs.getQueueUrl(queueName).queueUrl,
+            )
 
         val result = sqs.receiveMessage(request)
         return result.messages.map { it.body }
     }
 
-    fun createStream(name: String = "test-stream", sleepTime: Long = 1000) {
-        val request = CreateStreamRequest()
-            .withStreamName(name)
-            .withShardCount(1)
+    fun createStream(
+        name: String = "test-stream",
+        sleepTime: Long = 1000,
+    ) {
+        val request =
+            CreateStreamRequest()
+                .withStreamName(name)
+                .withShardCount(1)
 
         kinesis.createStream(request)
 
@@ -59,30 +75,39 @@ class LocalStackSupport(
         Thread.sleep(sleepTime)
     }
 
-    fun sendKinesisMessage(streamName: String = "test-stream", data: String): String {
+    fun sendKinesisMessage(
+        streamName: String = "test-stream",
+        data: String,
+    ): String {
         val buffer = ByteBuffer.wrap(data.encodeToByteArray())
 
-        val request = PutRecordRequest()
-            .withPartitionKey("000")
-            .withStreamName(streamName)
-            .withData(buffer)
+        val request =
+            PutRecordRequest()
+                .withPartitionKey("000")
+                .withStreamName(streamName)
+                .withData(buffer)
 
         val result = kinesis.putRecord(request)
 
         return result.sequenceNumber
     }
 
-    fun readKinesisMessage(streamName: String = "test-stream", startingSequence: String): List<String> {
-        val iterRequest = GetShardIteratorRequest()
-            .withShardId("shardId-000000000000")
-            .withStreamName(streamName)
-            .withStartingSequenceNumber(startingSequence)
-            .withShardIteratorType(ShardIteratorType.AT_SEQUENCE_NUMBER)
+    fun readKinesisMessage(
+        streamName: String = "test-stream",
+        startingSequence: String,
+    ): List<String> {
+        val iterRequest =
+            GetShardIteratorRequest()
+                .withShardId("shardId-000000000000")
+                .withStreamName(streamName)
+                .withStartingSequenceNumber(startingSequence)
+                .withShardIteratorType(ShardIteratorType.AT_SEQUENCE_NUMBER)
 
         val iterResult = kinesis.getShardIterator(iterRequest)
 
-        val request = GetRecordsRequest()
-            .withShardIterator(iterResult.shardIterator)
+        val request =
+            GetRecordsRequest()
+                .withShardIterator(iterResult.shardIterator)
 
         val result = kinesis.getRecords(request)
 

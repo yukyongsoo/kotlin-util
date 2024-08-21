@@ -14,25 +14,30 @@ class TestController {
     fun webfluxTest(
         @PathVariable id: Int,
         @RequestParam param: String,
-        @RequestBody body: TestRequestBody
+        @RequestBody body: TestRequestBody,
     ): ResponseEntity<NestedTestResponseBody<List<NestedTestResponseBody<TestResponseBody>>>> {
-        val responseBody = NestedTestResponseBody(
-            "message",
-            "code",
-            listOf<NestedTestResponseBody<TestResponseBody>>(
-                NestedTestResponseBody(
-                    "aaa",
-                    "bbb",
-                    TestResponseBody(
-                        listOf(), "message", "code"
-                    )
-                )
+        val responseBody =
+            NestedTestResponseBody(
+                "message",
+                "code",
+                listOf<NestedTestResponseBody<TestResponseBody>>(
+                    NestedTestResponseBody(
+                        "aaa",
+                        "bbb",
+                        TestResponseBody(
+                            listOf(),
+                            "message",
+                            "code",
+                        ),
+                    ),
+                ),
             )
-        )
 
-        val response = ResponseEntity.ok()
-            .header("x-header", "AAAA")
-            .body(responseBody)
+        val response =
+            ResponseEntity
+                .ok()
+                .header("x-header", "AAAA")
+                .body(responseBody)
 
         return response
     }
@@ -41,31 +46,33 @@ class TestController {
     fun mvcTest(
         @PathVariable id: Int,
         @RequestParam param: String,
-        @RequestBody body: TestRequestBody
+        @RequestBody body: TestRequestBody,
     ): ResponseEntity<TestResponseBody> {
         val responseBody = TestResponseBody(listOf(), "message", "code")
 
-        val response = ResponseEntity.ok()
-            .header("x-header", "AAAA")
-            .body(responseBody)
+        val response =
+            ResponseEntity
+                .ok()
+                .header("x-header", "AAAA")
+                .body(responseBody)
 
         return response
     }
 
     data class TestRequestBody(
         val categoryId: Int,
-        val content: String
+        val content: String,
     )
 
     data class TestResponseBody(
         val data: List<String>,
         val message: String,
-        val code: String
+        val code: String,
     )
 
     data class NestedTestResponseBody<T>(
         val message: String,
         val code: String,
-        val data: T
+        val data: T,
     )
 }

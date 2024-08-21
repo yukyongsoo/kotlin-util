@@ -18,7 +18,10 @@ class QuerydslBlazeTest {
     companion object {
         init {
             val config =
-                MysqlTestConfiguration("spring.datasource", connectOption = "useUnicode=true&charset=utf8mb4&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&enabledTLSProtocols=TLSv1.2")
+                MysqlTestConfiguration(
+                    "spring.datasource",
+                    connectOption = "useUnicode=true&charset=utf8mb4&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&enabledTLSProtocols=TLSv1.2",
+                )
 
             MysqlTestContainer.initialize(listOf(config))
         }
@@ -39,9 +42,10 @@ class QuerydslBlazeTest {
     fun blazeTest() {
         val blazeJPAQuery = BlazeJPAQuery<TestEntity>(entityManager, criteriaBuilderFactory)
 
-        val jpqlQuery = blazeJPAQuery SELECT entity FROM entity WHERE {
-            (entity.test EQUAL "a") AND (entity.id EQUAL 1)
-        } ORDERBY entity.id.asc()
+        val jpqlQuery =
+            blazeJPAQuery SELECT entity FROM entity WHERE {
+                (entity.test EQUAL "a") AND (entity.id EQUAL 1)
+            } ORDERBY entity.id.asc()
 
         jpqlQuery.fetchResults()
     }

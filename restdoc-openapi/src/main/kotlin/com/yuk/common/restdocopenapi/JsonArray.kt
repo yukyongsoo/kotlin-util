@@ -10,13 +10,16 @@ import org.springframework.restdocs.payload.FieldDescriptor
 @Response
 class JsonArray(
     private val fields: MutableList<FieldDescriptor>,
-    private val name: String
+    private val name: String,
 ) {
     private var initialized = false
 
-    fun number(fieldName: String, description: String = "", optional: Boolean = false) {
+    fun number(
+        fieldName: String,
+        description: String = "",
+        optional: Boolean = false,
+    ) {
         initializeCheck {
-
             val path = createPath("$name[]", fieldName)
 
             val field =
@@ -25,7 +28,11 @@ class JsonArray(
         }
     }
 
-    fun string(fieldName: String, description: String = "", optional: Boolean = false) {
+    fun string(
+        fieldName: String,
+        description: String = "",
+        optional: Boolean = false,
+    ) {
         initializeCheck {
             val path = createPath("$name[]", fieldName)
 
@@ -35,7 +42,11 @@ class JsonArray(
         }
     }
 
-    fun bool(fieldName: String, description: String = "", optional: Boolean = false) {
+    fun bool(
+        fieldName: String,
+        description: String = "",
+        optional: Boolean = false,
+    ) {
         initializeCheck {
             val path = createPath("$name[]", fieldName)
 
@@ -47,7 +58,7 @@ class JsonArray(
 
     fun objects(
         fieldName: String,
-        func: JsonObject.() -> Unit
+        func: JsonObject.() -> Unit,
     ) {
         initializeCheck {
             val path = createPath("$name[]", fieldName)
@@ -58,8 +69,9 @@ class JsonArray(
     }
 
     private fun initializeCheck(func: () -> Unit) {
-        if (initialized)
+        if (initialized) {
             throw IllegalStateException("array can have only one type")
+        }
         func()
         initialized = true
     }

@@ -8,7 +8,7 @@ class RedisTestSample {
         init {
             RedisTestContainer.initialize(
                 listOf("spring.redis.host"),
-                listOf("spring.redis.port")
+                listOf("spring.redis.port"),
             )
         }
 

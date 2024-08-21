@@ -6,7 +6,7 @@ repositories {
 }
 
 plugins {
-    val kotlinVersion = "1.5.21"
+    val kotlinVersion = "2.0.0"
 
     kotlin("plugin.spring") version kotlinVersion
     kotlin("plugin.jpa") version kotlinVersion

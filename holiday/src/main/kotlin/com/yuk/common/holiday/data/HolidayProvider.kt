@@ -6,5 +6,6 @@ import java.time.YearMonth
 
 interface HolidayProvider {
     fun getYearHolidays(year: Year): List<Holiday>
+
     fun getYearMonthHolidays(yearMonth: YearMonth): List<Holiday>
 }

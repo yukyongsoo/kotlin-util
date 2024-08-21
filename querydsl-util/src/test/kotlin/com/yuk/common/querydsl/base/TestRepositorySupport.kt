@@ -15,9 +15,10 @@ open class TestRepositorySupport : QuerydslRepositorySupport(TestEntity::class.j
     private val entity: QTestEntity = QTestEntity.testEntity
 
     fun read(): QueryResults<TestEntity> {
-        val jpqlQuery = querydsl!! SELECT entity FROM entity WHERE {
-            (entity.test EQUAL "a") AND (entity.id EQUAL 1)
-        }
+        val jpqlQuery =
+            querydsl!! SELECT entity FROM entity WHERE {
+                (entity.test EQUAL "a") AND (entity.id EQUAL 1)
+            }
 
         // if you want pagination
         // pagingBy pageable

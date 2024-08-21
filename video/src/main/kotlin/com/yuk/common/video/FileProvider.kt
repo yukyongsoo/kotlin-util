@@ -6,5 +6,9 @@ import java.io.InputStream
 @Service
 interface FileProvider {
     fun getVideo(path: VideoPathKey): Video
-    fun saveVideo(inputStream: InputStream, path: String): VideoPathKey
+
+    fun saveVideo(
+        inputStream: InputStream,
+        path: String,
+    ): VideoPathKey
 }

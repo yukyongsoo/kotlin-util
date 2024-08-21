@@ -50,8 +50,9 @@ class ResponseBody {
     }
 
     private fun initializeCheck(func: () -> Unit) {
-        if (initialized)
+        if (initialized) {
             throw IllegalStateException("only one function use. string, number, bool, array, objects")
+        }
         func()
         initialized = true
     }

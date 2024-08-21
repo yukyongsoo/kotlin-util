@@ -4,5 +4,5 @@ import org.springframework.core.io.Resource
 
 data class Video(
     val size: Long,
-    val resource: Resource
+    val resource: Resource,
 )

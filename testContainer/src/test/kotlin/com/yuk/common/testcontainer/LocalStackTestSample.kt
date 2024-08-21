@@ -13,8 +13,8 @@ class LocalStackTestSample {
                     LocalStackContainer.Service.DYNAMODB,
                     LocalStackContainer.Service.CLOUDWATCHLOGS,
                     LocalStackContainer.Service.KINESIS,
-                    LocalStackContainer.Service.IAM
-                )
+                    LocalStackContainer.Service.IAM,
+                ),
             )
         }
 

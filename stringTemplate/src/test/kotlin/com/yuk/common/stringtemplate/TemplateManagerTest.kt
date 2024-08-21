@@ -26,7 +26,7 @@ class TemplateManagerTest {
     @Test
     fun get() {
         given(templateProvider.getOrNull(TemplateId("test"))).willReturn(
-            TestObjectFactory.getTemplate()
+            TestObjectFactory.getTemplate(),
         )
 
         templateManager.get(TemplateId("test"))
@@ -35,7 +35,7 @@ class TemplateManagerTest {
     @Test
     fun getRoots() {
         given(templateProvider.getRoots()).willReturn(
-            listOf(TestObjectFactory.getTemplate())
+            listOf(TestObjectFactory.getTemplate()),
         )
 
         templateManager.getRoots()
@@ -44,7 +44,7 @@ class TemplateManagerTest {
     @Test
     fun getByIds() {
         given(templateProvider.getByIds(anyCollection())).willReturn(
-            listOf(TestObjectFactory.getTemplate())
+            listOf(TestObjectFactory.getTemplate()),
         )
 
         templateManager.getByIds(listOf(TemplateId("test")))
@@ -53,7 +53,7 @@ class TemplateManagerTest {
     @Test
     fun getChild() {
         given(templateProvider.getChild(TemplateId("test"))).willReturn(
-            listOf(TestObjectFactory.getTemplate())
+            listOf(TestObjectFactory.getTemplate()),
         )
 
         templateManager.getChild(TemplateId("test"))
@@ -69,7 +69,7 @@ class TemplateManagerTest {
     @Test
     fun update() {
         given(templateProvider.getOrNull(any())).willReturn(
-            TestObjectFactory.getTemplate()
+            TestObjectFactory.getTemplate(),
         )
 
         templateManager.updateOnlyStringPart(TemplateId("test"), "asdf {{1}}")
@@ -92,7 +92,7 @@ class TemplateManagerTest {
     @Test
     fun getResult() {
         given(templateProvider.getOrNull(TemplateId("test"))).willReturn(
-            TestObjectFactory.getTemplate()
+            TestObjectFactory.getTemplate(),
         )
 
         val result = templateManager.getResult(TemplateId("test"), listOf("asdf"))

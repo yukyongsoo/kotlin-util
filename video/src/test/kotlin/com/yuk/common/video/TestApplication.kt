@@ -18,12 +18,12 @@ fun main() {
 @Configuration
 open class TestConfiguration {
     @Bean
-    open fun getS3Client(): S3Client {
-        return S3Client.builder()
+    open fun getS3Client(): S3Client =
+        S3Client
+            .builder()
             .endpointOverride(URI("http://localhost:4566"))
             .region(Region.AP_NORTHEAST_2)
             .build()
-    }
 
     @Bean
     open fun getFileProvider(s3Client: S3Client): FileProvider {

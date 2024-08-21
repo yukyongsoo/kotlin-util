@@ -16,7 +16,10 @@ class QuerydslTest {
     companion object {
         init {
             val config =
-                MysqlTestConfiguration("spring.datasource", connectOption = "useUnicode=true&charset=utf8mb4&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&enabledTLSProtocols=TLSv1.2")
+                MysqlTestConfiguration(
+                    "spring.datasource",
+                    connectOption = "useUnicode=true&charset=utf8mb4&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&enabledTLSProtocols=TLSv1.2",
+                )
 
             MysqlTestContainer.initialize(listOf(config))
         }
@@ -39,138 +42,155 @@ class QuerydslTest {
         query.fetch()
 
         assert(
-            query.toString() == """
+            query.toString() ==
+                """
                 select testEntity
                 from TestEntity testEntity
-            """.trimIndent()
+                """.trimIndent(),
         )
     }
 
     @Test
     fun `스칼라 조회`() {
-        val query = jpaQueryFactory.SELECT<Long> {
-            arrayOf(
-                entity.id
-            )
-        } FROM entity
+        val query =
+            jpaQueryFactory.SELECT<Long> {
+                arrayOf(
+                    entity.id,
+                )
+            } FROM entity
 
         query.fetch()
 
         assert(
-            query.toString() == """
+            query.toString() ==
+                """
                 select testEntity.id
                 from TestEntity testEntity
-            """.trimIndent()
+                """.trimIndent(),
         )
     }
 
     @Test
     fun `조건문 테스트`() {
-        val query = jpaQueryFactory SELECT entity FROM entity WHERE {
-            entity.id EQUAL 1
-        }
+        val query =
+            jpaQueryFactory SELECT entity FROM entity WHERE {
+                entity.id EQUAL 1
+            }
 
         query.fetch()
 
         assert(
-            query.toString() == """
+            query.toString() ==
+                """
                 select testEntity
                 from TestEntity testEntity
                 where testEntity.id = ?1
-            """.trimIndent()
+                """.trimIndent(),
         )
     }
 
     @Test
     fun `중첩 조건문 테스트`() {
-        val query = jpaQueryFactory SELECT entity FROM entity WHERE {
-            entity.id EQUAL 1 AND ((entity.test EQUAL "name") OR (entity.test EQUAL "name2"))
-        }
+        val query =
+            jpaQueryFactory SELECT entity FROM entity WHERE {
+                entity.id EQUAL 1 AND ((entity.test EQUAL "name") OR (entity.test EQUAL "name2"))
+            }
 
         query.fetch()
 
         assert(
-            query.toString() == """
-              select testEntity
-              from TestEntity testEntity
-              where testEntity.id = ?1 and (testEntity.test = ?2 or testEntity.test = ?3)
-            """.trimIndent()
+            query.toString() ==
+                """
+                select testEntity
+                from TestEntity testEntity
+                where testEntity.id = ?1 and (testEntity.test = ?2 or testEntity.test = ?3)
+                """.trimIndent(),
         )
     }
 
     @Test
     fun `조인 테스트`() {
-        val query = jpaQueryFactory SELECT entity FROM entity JOIN
-            entity2 ON (entity.id EQUAL entity2.id)
+        val query =
+            jpaQueryFactory SELECT entity FROM entity JOIN
+                entity2 ON (entity.id EQUAL entity2.id)
 
         query.fetch()
 
         assert(
-            query.toString() == """
-              select testEntity
-              from TestEntity testEntity
-                inner join TestEntity2 testEntity2 with testEntity.id = testEntity2.id
-            """.trimIndent()
+            query.toString() ==
+                """
+                select testEntity
+                from TestEntity testEntity
+                  inner join TestEntity2 testEntity2 with testEntity.id = testEntity2.id
+                """.trimIndent(),
         )
     }
 
     @Test
     fun `Select Distinct 테스트`() {
-        val query = jpaQueryFactory `SELECT DISTINCT` entity FROM entity JOIN
-            entity2 ON (entity.id EQUAL entity2.id)
+        val query =
+            jpaQueryFactory `SELECT DISTINCT` entity FROM entity JOIN
+                entity2 ON (entity.id EQUAL entity2.id)
 
         query.fetch()
 
         assert(
-            query.toString() == """
-              select distinct testEntity
-              from TestEntity testEntity
-                inner join TestEntity2 testEntity2 with testEntity.id = testEntity2.id
-            """.trimIndent()
+            query.toString() ==
+                """
+                select distinct testEntity
+                from TestEntity testEntity
+                  inner join TestEntity2 testEntity2 with testEntity.id = testEntity2.id
+                """.trimIndent(),
         )
     }
 
     @Test
     fun `Left 조인 테스트`() {
-        val query = jpaQueryFactory SELECT entity FROM entity LEFTJOIN
-            entity2 ON (entity.id EQUAL entity2.id)
+        val query =
+            jpaQueryFactory SELECT entity FROM entity LEFTJOIN
+                entity2 ON (entity.id EQUAL entity2.id)
 
         query.fetch()
 
         assert(
-            query.toString() == """
-              select testEntity
-              from TestEntity testEntity
-                left join TestEntity2 testEntity2 with testEntity.id = testEntity2.id
-            """.trimIndent()
+            query.toString() ==
+                """
+                select testEntity
+                from TestEntity testEntity
+                  left join TestEntity2 testEntity2 with testEntity.id = testEntity2.id
+                """.trimIndent(),
         )
     }
 
     @Test
     fun `Right 조인 테스트`() {
-        val query = jpaQueryFactory SELECT entity2 FROM entity2 RIGHTJOIN
-            entity ON (entity2.id EQUAL entity.id)
+        val query =
+            jpaQueryFactory SELECT entity2 FROM entity2 RIGHTJOIN
+                entity ON (entity2.id EQUAL entity.id)
 
         query.fetch()
 
         assert(
-            query.toString() == """
-              select testEntity2
-              from TestEntity2 testEntity2
-                right join TestEntity testEntity with testEntity2.id = testEntity.id
-            """.trimIndent()
+            query.toString() ==
+                """
+                select testEntity2
+                from TestEntity2 testEntity2
+                  right join TestEntity testEntity with testEntity2.id = testEntity.id
+                """.trimIndent(),
         )
     }
 
     @Test
     fun `페치조인 테스트`() {
-        val query = jpaQueryFactory SELECT entity FROM entity FETCHJOIN
-            entity2 ON (entity.id EQUAL entity2.id)
+        val query =
+            jpaQueryFactory SELECT entity FROM entity FETCHJOIN
+                entity2 ON (entity.id EQUAL entity2.id)
 
         query.fetch()
 
         assert(
-            query.toString() == "select testEntity\nfrom TestEntity testEntity\n  inner join fetch TestEntity2 testEntity2 with testEntity.id = testEntity2.id"
+            query.toString() ==
+                "select testEntity\nfrom TestEntity testEntity\n  inner join fetch TestEntity2 testEntity2 with testEntity.id = testEntity2.id",
         )
     }
 }

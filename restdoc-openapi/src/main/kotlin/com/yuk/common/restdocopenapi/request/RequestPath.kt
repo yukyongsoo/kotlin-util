@@ -8,33 +8,48 @@ import com.epages.restdocs.apispec.SimpleType
 class RequestPath {
     val paths = mutableListOf<ParameterDescriptorWithType>()
 
-    fun string(name: String, description: String = "", optional: Boolean = false) {
-        val path = path(
-            name,
-            SimpleType.STRING,
-            description,
-            optional
-        )
+    fun string(
+        name: String,
+        description: String = "",
+        optional: Boolean = false,
+    ) {
+        val path =
+            path(
+                name,
+                SimpleType.STRING,
+                description,
+                optional,
+            )
         paths.add(path)
     }
 
-    fun number(name: String, description: String = "", optional: Boolean = false) {
-        val path = path(
-            name,
-            SimpleType.NUMBER,
-            description,
-            optional
-        )
+    fun number(
+        name: String,
+        description: String = "",
+        optional: Boolean = false,
+    ) {
+        val path =
+            path(
+                name,
+                SimpleType.NUMBER,
+                description,
+                optional,
+            )
         paths.add(path)
     }
 
-    fun bool(name: String, description: String = "", optional: Boolean = false) {
-        val path = path(
-            name,
-            SimpleType.BOOLEAN,
-            description,
-            optional
-        )
+    fun bool(
+        name: String,
+        description: String = "",
+        optional: Boolean = false,
+    ) {
+        val path =
+            path(
+                name,
+                SimpleType.BOOLEAN,
+                description,
+                optional,
+            )
         paths.add(path)
     }
 
@@ -42,7 +57,7 @@ class RequestPath {
         name: String,
         type: SimpleType,
         description: String,
-        optional: Boolean
+        optional: Boolean,
     ): ParameterDescriptorWithType {
         val path = ResourceDocumentation.parameterWithName(name).description(description).type(type)
         return if (optional) path.optional() else path

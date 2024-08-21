@@ -11,9 +11,10 @@ import org.springframework.test.web.servlet.MvcResult
 
 @DslMarker
 annotation class DocumentMark
+
 inline fun <reified T> document(
     result: T,
-    func: Document.() -> Unit
+    func: Document.() -> Unit,
 ): Document {
     val document = Document()
     document.func()
@@ -36,22 +37,23 @@ class Document {
 
     private val builder = ResourceSnippetParametersBuilder().description("")
 
-    fun build(result: MvcResult) {
-        return MockMvcRestDocumentationWrapper.document(
-            name,
-            description,
-            false,
-            ResourceDocumentation.resource(builder.build())
-        ).handle(result)
-    }
+    fun build(result: MvcResult) =
+        MockMvcRestDocumentationWrapper
+            .document(
+                name,
+                description,
+                false,
+                ResourceDocumentation.resource(builder.build()),
+            ).handle(result)
 
     fun <T> build(result: EntityExchangeResult<T>) {
-        WebTestClientRestDocumentationWrapper.document<T>(
-            name,
-            description,
-            false,
-            ResourceDocumentation.resource(builder.build())
-        ).accept(result)
+        WebTestClientRestDocumentationWrapper
+            .document<T>(
+                name,
+                description,
+                false,
+                ResourceDocumentation.resource(builder.build()),
+            ).accept(result)
     }
 
     fun request(func: DocumentRequest.() -> Unit) {

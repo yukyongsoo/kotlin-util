@@ -10,13 +10,13 @@ class LocalFileProvider : FileProvider {
 
         return Video(
             file.length(),
-            InputStreamResource(file.inputStream())
+            InputStreamResource(file.inputStream()),
         )
     }
 
     override fun saveVideo(
         inputStream: InputStream,
-        path: String
+        path: String,
     ): VideoPathKey {
         File(path).outputStream().use {
             inputStream.copyTo(it)

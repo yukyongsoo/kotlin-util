@@ -12,33 +12,38 @@ class S3FileProvider(
     private val bucketName: String,
 ) : FileProvider {
     override fun getVideo(path: VideoPathKey): Video {
-        val request = GetObjectRequest.builder()
-            .bucket(bucketName)
-            .key(path.path)
-            .build()
+        val request =
+            GetObjectRequest
+                .builder()
+                .bucket(bucketName)
+                .key(path.path)
+                .build()
 
         val response = s3Client.getObject(request)
         response.response().contentLength()
 
         return Video(
             response.response().contentLength(),
-            InputStreamResource(response)
+            InputStreamResource(response),
         )
     }
 
     override fun saveVideo(
         inputStream: InputStream,
-        path: String
+        path: String,
     ): VideoPathKey {
-        val request = PutObjectRequest.builder()
-            .bucket(bucketName)
-            .key(path)
-            .build()
+        val request =
+            PutObjectRequest
+                .builder()
+                .bucket(bucketName)
+                .key(path)
+                .build()
 
-        val response = s3Client.putObject(
-            request,
-            RequestBody.fromInputStream(inputStream, inputStream.available().toLong())
-        )
+        val response =
+            s3Client.putObject(
+                request,
+                RequestBody.fromInputStream(inputStream, inputStream.available().toLong()),
+            )
 
         return VideoPathKey(path)
     }

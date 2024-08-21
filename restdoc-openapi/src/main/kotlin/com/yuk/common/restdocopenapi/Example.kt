@@ -7,6 +7,7 @@ import org.springframework.restdocs.payload.PayloadDocumentation
 
 interface Component {
     fun build(): List<FieldDescriptor>
+
     fun setParent(name: String)
 }
 
@@ -15,7 +16,7 @@ abstract class Section(
     private val type: JsonFieldType,
     private val description: String = "",
     private val optional: Boolean = false,
-    private vararg val component: Component
+    private vararg val component: Component,
 ) : Component {
     private var parent: String = ""
 
@@ -23,19 +24,23 @@ abstract class Section(
         val list = mutableListOf<FieldDescriptor>()
 
         if (name.isNotBlank()) {
-            var section = PayloadDocumentation.subsectionWithPath("$parent.$name")
-                .type(type).description(description)
+            var section =
+                PayloadDocumentation
+                    .subsectionWithPath("$parent.$name")
+                    .type(type)
+                    .description(description)
             section = if (optional) section.optional() else section
             list.add(section)
         }
 
         component.forEach {
-            if (parent.isNotBlank() && name.isNotBlank())
+            if (parent.isNotBlank() && name.isNotBlank()) {
                 it.setParent("$parent.$name")
-            else if (parent.isNotBlank())
+            } else if (parent.isNotBlank()) {
                 it.setParent(parent)
-            else if (name.isNotBlank())
+            } else if (name.isNotBlank()) {
                 it.setParent(name)
+            }
 
             list.addAll(it.build())
         }
@@ -52,7 +57,7 @@ class ArraySection(
     name: String = "",
     description: String = "",
     optional: Boolean = false,
-    vararg components: Component
+    vararg components: Component,
 ) : Section("$name[]", JsonFieldType.ARRAY, description, optional, *components) {
     constructor(vararg components: Component) : this("", "", false, *components)
 }
@@ -61,7 +66,7 @@ class ObjectSection(
     name: String = "",
     description: String = "",
     optional: Boolean = false,
-    vararg components: Component
+    vararg components: Component,
 ) : Section(name, JsonFieldType.OBJECT, description, optional, *components) {
     constructor(vararg components: Component) : this("", "", false, *components)
 }
@@ -70,7 +75,7 @@ abstract class Field(
     private val name: String,
     private val type: SimpleType,
     private val description: String = "",
-    private val optional: Boolean = false
+    private val optional: Boolean = false,
 ) : Component {
     private var parent: String = ""
 
@@ -89,17 +94,17 @@ abstract class Field(
 class StringField(
     name: String,
     description: String = "",
-    optional: Boolean = false
+    optional: Boolean = false,
 ) : Field(name, SimpleType.STRING, description, optional)
 
 class NumberField(
     name: String,
     description: String = "",
-    optional: Boolean = false
+    optional: Boolean = false,
 ) : Field(name, SimpleType.NUMBER, description, optional)
 
 class BooleanField(
     name: String,
     description: String = "",
-    optional: Boolean = false
+    optional: Boolean = false,
 ) : Field(name, SimpleType.BOOLEAN, description, optional)

@@ -12,7 +12,10 @@ class JPAGroupProvider : GroupProvider {
     @Autowired
     private lateinit var groupRepository: JPAGroupRepository
 
-    override fun create(id: GroupId, descr: String) {
+    override fun create(
+        id: GroupId,
+        descr: String,
+    ) {
         val entity = GroupEntity(id.value, descr)
 
         groupRepository.save(entity)
@@ -26,7 +29,10 @@ class JPAGroupProvider : GroupProvider {
         }
     }
 
-    override fun updateDescription(id: GroupId, descr: String) {
+    override fun updateDescription(
+        id: GroupId,
+        descr: String,
+    ) {
         val entity = groupRepository.findByIdOrNull(id.value)
 
         entity?.descr = descr
@@ -44,26 +50,31 @@ class JPAGroupProvider : GroupProvider {
         return entityToDomain(entity)
     }
 
-    override fun attachTemplate(id: GroupId, templateId: TemplateId) {
+    override fun attachTemplate(
+        id: GroupId,
+        templateId: TemplateId,
+    ) {
         val entity = groupRepository.findByIdOrNull(id.value)
 
         entity?.attachTemplate(templateId)
     }
 
-    override fun detachTemplate(id: GroupId, templateId: TemplateId) {
+    override fun detachTemplate(
+        id: GroupId,
+        templateId: TemplateId,
+    ) {
         val entity = groupRepository.findByIdOrNull(id.value)
 
         entity?.detachTemplate(templateId)
     }
 
-    private fun entityToDomain(entity: GroupEntity?): Group? {
-        return entity?.let {
+    private fun entityToDomain(entity: GroupEntity?): Group? =
+        entity?.let {
             Group(
                 GroupId(it.id),
-                it.descr
+                it.descr,
             ).apply {
                 templateIdSet = it.templateIdSet
             }
         }
-    }
 }

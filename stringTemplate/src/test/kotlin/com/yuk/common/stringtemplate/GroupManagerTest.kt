@@ -8,8 +8,8 @@ import com.yuk.common.stringtemplate.template.TemplateManager
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.ArgumentMatchers.anyString
-import org.mockito.BDDMockito.`when`
 import org.mockito.BDDMockito.doNothing
+import org.mockito.BDDMockito.`when`
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
@@ -50,7 +50,7 @@ class GroupManagerTest {
     @Test
     fun getAllExceptTemplateId() {
         `when`(groupProvider.getAllExceptTemplateId()).thenReturn(
-            listOf(TestObjectFactory.getGroup())
+            listOf(TestObjectFactory.getGroup()),
         )
 
         groupManager.getAllExceptTemplateId()

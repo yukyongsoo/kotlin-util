@@ -5,5 +5,5 @@ class TestObject(
     val int: Int,
     val long: Long,
     val float: Float,
-    val double: Double
+    val double: Double,
 )

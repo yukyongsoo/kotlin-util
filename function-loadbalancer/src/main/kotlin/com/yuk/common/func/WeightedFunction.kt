@@ -8,5 +8,5 @@ import kotlin.reflect.KClass
 annotation class WeightedFunction(
     val weight: Int,
     val otherFunctionName: String,
-    val otherClass: KClass<*>
+    val otherClass: KClass<*>,
 )

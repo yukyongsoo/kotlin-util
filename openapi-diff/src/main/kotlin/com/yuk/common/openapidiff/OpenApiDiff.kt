@@ -9,7 +9,7 @@ import java.io.FileWriter
 class OpenApiDiff {
     fun diff(
         old: String,
-        new: String
+        new: String,
     ) {
         val diff = OpenApiCompare.fromLocations(old, new)
 
@@ -17,9 +17,11 @@ class OpenApiDiff {
     }
 
     private fun createFile(diff: ChangedOpenApi) {
-        val html = HtmlRender(
-            "Changelog", "http://deepoove.com/swagger-diff/stylesheets/demo.css"
-        ).render(diff)
+        val html =
+            HtmlRender(
+                "Changelog",
+                "http://deepoove.com/swagger-diff/stylesheets/demo.css",
+            ).render(diff)
 
         FileWriter("NewApi.html").use {
             it.write(html)

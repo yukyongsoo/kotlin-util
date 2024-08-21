@@ -11,9 +11,13 @@ import org.springframework.restdocs.payload.JsonFieldType
 @Response
 class JsonObject(
     private val fields: MutableList<FieldDescriptor>,
-    private val name: String
+    private val name: String,
 ) {
-    fun number(fieldName: String, description: String = "", optional: Boolean = false) {
+    fun number(
+        fieldName: String,
+        description: String = "",
+        optional: Boolean = false,
+    ) {
         val path = createPath(name, fieldName)
 
         val field =
@@ -21,7 +25,11 @@ class JsonObject(
         fields.add(field)
     }
 
-    fun string(fieldName: String, description: String = "", optional: Boolean = false) {
+    fun string(
+        fieldName: String,
+        description: String = "",
+        optional: Boolean = false,
+    ) {
         val path = createPath(name, fieldName)
 
         val field =
@@ -29,7 +37,11 @@ class JsonObject(
         fields.add(field)
     }
 
-    fun bool(fieldName: String, description: String = "", optional: Boolean = false) {
+    fun bool(
+        fieldName: String,
+        description: String = "",
+        optional: Boolean = false,
+    ) {
         val path = createPath(name, fieldName)
 
         val field =
@@ -37,7 +49,11 @@ class JsonObject(
         fields.add(field)
     }
 
-    fun stringArray(fieldName: String, description: String = "", optional: Boolean = false) {
+    fun stringArray(
+        fieldName: String,
+        description: String = "",
+        optional: Boolean = false,
+    ) {
         val path = createPath(name, fieldName)
 
         val field =
@@ -45,7 +61,11 @@ class JsonObject(
         fields.add(field)
     }
 
-    fun boolArray(fieldName: String, description: String = "", optional: Boolean = false) {
+    fun boolArray(
+        fieldName: String,
+        description: String = "",
+        optional: Boolean = false,
+    ) {
         val path = createPath(name, fieldName)
 
         val field =
@@ -53,7 +73,11 @@ class JsonObject(
         fields.add(field)
     }
 
-    fun numberArray(fieldName: String, description: String = "", optional: Boolean = false) {
+    fun numberArray(
+        fieldName: String,
+        description: String = "",
+        optional: Boolean = false,
+    ) {
         val path = createPath(name, fieldName)
 
         val field =
@@ -65,7 +89,7 @@ class JsonObject(
         fieldName: String,
         optional: Boolean = false,
         description: String = "",
-        func: JsonArray.() -> Unit
+        func: JsonArray.() -> Unit,
     ) {
         val path = createPath(name, fieldName)
 
@@ -80,7 +104,7 @@ class JsonObject(
         fieldName: String,
         optional: Boolean = false,
         description: String = "",
-        func: JsonObject.() -> Unit
+        func: JsonObject.() -> Unit,
     ) {
         val path = createPath(name, fieldName)
 

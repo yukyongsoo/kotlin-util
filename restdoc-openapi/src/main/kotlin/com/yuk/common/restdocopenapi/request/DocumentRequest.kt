@@ -9,7 +9,9 @@ annotation class Request
 
 @Request
 @DocumentMark
-class DocumentRequest(private var builder: ResourceSnippetParametersBuilder) {
+class DocumentRequest(
+    private var builder: ResourceSnippetParametersBuilder,
+) {
     private var requestHeader: RequestHeader by initOnce()
     private var requestPath: RequestPath by initOnce()
     private var requestQuery: RequestQuery by initOnce()

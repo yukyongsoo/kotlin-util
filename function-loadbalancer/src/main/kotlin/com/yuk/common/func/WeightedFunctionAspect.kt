@@ -12,13 +12,13 @@ import kotlin.random.Random
 @Aspect
 @Component
 class WeightedFunctionAspect(
-    private val context: ApplicationContext
+    private val context: ApplicationContext,
 ) {
     @Around("@annotation(weightedFunction)")
     @Throws(Throwable::class)
     fun around(
         joinPoint: ProceedingJoinPoint,
-        weightedFunction: WeightedFunction
+        weightedFunction: WeightedFunction,
     ): Any? {
         val weight = weightedFunction.weight
 
@@ -31,15 +31,16 @@ class WeightedFunctionAspect(
 
     private fun runOther(
         joinPoint: ProceedingJoinPoint,
-        weightedFunction: WeightedFunction
+        weightedFunction: WeightedFunction,
     ): Any? {
         val targetBean = getTargetBean(weightedFunction.otherClass.java)
 
-        val otherMethod = checkSameParamAndReturn(
-            joinPoint.signature as MethodSignature,
-            targetBean,
-            weightedFunction.otherFunctionName
-        )
+        val otherMethod =
+            checkSameParamAndReturn(
+                joinPoint.signature as MethodSignature,
+                targetBean,
+                weightedFunction.otherFunctionName,
+            )
 
         return otherMethod.invoke(targetBean, *joinPoint.args)
     }
@@ -51,8 +52,9 @@ class WeightedFunctionAspect(
             return context.getBean(className)
         }
 
-        if (context.containsBean(serviceClass.name))
+        if (context.containsBean(serviceClass.name)) {
             return context.getBean(serviceClass.name)
+        }
 
         throw IllegalArgumentException("${serviceClass.name} is not a Spring bean")
     }
@@ -60,20 +62,21 @@ class WeightedFunctionAspect(
     private fun checkSameParamAndReturn(
         signature: MethodSignature,
         targetBean: Any,
-        otherFunctionName: String
-    ): Method {
-        return try {
-            val method = targetBean.javaClass.getMethod(
-                otherFunctionName,
-                *signature.parameterTypes
-            )
+        otherFunctionName: String,
+    ): Method =
+        try {
+            val method =
+                targetBean.javaClass.getMethod(
+                    otherFunctionName,
+                    *signature.parameterTypes,
+                )
 
-            if (signature.method.returnType != method.returnType)
+            if (signature.method.returnType != method.returnType) {
                 throw IllegalArgumentException("$otherFunctionName is not same original method. routing method has same return type?")
+            }
 
             method
         } catch (e: NoSuchMethodException) {
             throw IllegalArgumentException("$otherFunctionName is not same original method. routing method has same parameter?")
         }
-    }
 }

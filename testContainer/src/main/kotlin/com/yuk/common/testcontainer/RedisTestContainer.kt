@@ -11,7 +11,10 @@ open class RedisTestContainer : BeforeAllCallback {
         private var hostPropertyList: List<String> = listOf()
         private var portPropertyList: List<String> = listOf()
 
-        fun initialize(hostPropertyList: List<String>, portPropertyList: List<String>) {
+        fun initialize(
+            hostPropertyList: List<String>,
+            portPropertyList: List<String>,
+        ) {
             RedisTestContainer.hostPropertyList = hostPropertyList
             RedisTestContainer.portPropertyList = portPropertyList
 

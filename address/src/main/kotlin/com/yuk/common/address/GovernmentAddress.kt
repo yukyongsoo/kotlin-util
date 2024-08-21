@@ -1,12 +1,12 @@
 package com.yuk.common.address
 
 data class GovernmentAddress(
-    val results: Results
+    val results: Results,
 )
 
 data class Results(
     val common: Common,
-    val juso: List<Juso>?
+    val juso: List<Juso>?,
 )
 
 data class Common(
@@ -14,7 +14,7 @@ data class Common(
     val currentPage: String,
     val countPerPage: String,
     val errorCode: String,
-    val errorMessage: String
+    val errorMessage: String,
 )
 
 data class Juso(
@@ -44,5 +44,5 @@ data class Juso(
     val emdNo: String,
     val hstryYn: String?,
     val relJibun: String?,
-    val hemdNm: String?
+    val hemdNm: String?,
 )

@@ -9,7 +9,9 @@ annotation class Response
 
 @Response
 @DocumentMark
-open class DocumentResponse(private var builder: ResourceSnippetParametersBuilder) {
+open class DocumentResponse(
+    private var builder: ResourceSnippetParametersBuilder,
+) {
     private var responseHeader: ResponseHeader by initOnce()
     private var responseBody: ResponseBody by initOnce()
 

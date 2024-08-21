@@ -9,18 +9,13 @@ import com.yuk.common.stringtemplate.template.Template
 import com.yuk.common.stringtemplate.template.TemplateId
 
 object TestObjectFactory {
-    fun getGroup(): Group {
-        return Group(GroupId("test"), "aaa")
-    }
+    fun getGroup(): Group = Group(GroupId("test"), "aaa")
 
-    fun getTemplate(): Template {
-        return Template(TemplateId("test"), "asdfsdf {{1}}", TemplateId.NONE)
-    }
+    fun getTemplate(): Template = Template(TemplateId("test"), "asdfsdf {{1}}", TemplateId.NONE)
 
-    fun getPartList(): List<Part> {
-        return listOf(
+    fun getPartList(): List<Part> =
+        listOf(
             StringPart("asdfsdf "),
-            KeywordPart("{{1}}", "")
+            KeywordPart("{{1}}", ""),
         )
-    }
 }

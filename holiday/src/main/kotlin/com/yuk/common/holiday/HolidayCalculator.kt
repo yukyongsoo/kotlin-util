@@ -11,55 +11,50 @@ import java.time.YearMonth
 
 class HolidayCalculator(
     private val holidayProvider: HolidayProvider,
-    private val cacheProvider: CacheProvider? = MemoryCacheProvider()
+    private val cacheProvider: CacheProvider? = MemoryCacheProvider(),
 ) {
     constructor(apiKey: String, useCache: Boolean = true) : this(
         GovernmentHolidayApiProvider(apiKey),
-        if (useCache) MemoryCacheProvider() else null
+        if (useCache) MemoryCacheProvider() else null,
     )
 
     constructor(apiKey: String, cacheProvider: CacheProvider) : this(
         GovernmentHolidayApiProvider(apiKey),
-        cacheProvider
+        cacheProvider,
     )
 
     private val commonWeekendFinder = CommonWeekendFinder()
 
-    fun isBusinessDay(dateTime: LocalDateTime): Boolean {
-        return isBusinessDay(dateTime.toLocalDate())
-    }
+    fun isBusinessDay(dateTime: LocalDateTime): Boolean = isBusinessDay(dateTime.toLocalDate())
 
-    fun isBusinessDay(date: LocalDate): Boolean {
-        return findHoliday(date) == null
-    }
+    fun isBusinessDay(date: LocalDate): Boolean = findHoliday(date) == null
 
-    fun isHoliday(dateTime: LocalDateTime): Boolean {
-        return isHoliday(dateTime.toLocalDate())
-    }
+    fun isHoliday(dateTime: LocalDateTime): Boolean = isHoliday(dateTime.toLocalDate())
 
-    fun isHoliday(date: LocalDate): Boolean {
-        return findHoliday(date) != null
-    }
+    fun isHoliday(date: LocalDate): Boolean = findHoliday(date) != null
 
     fun calculateAfterBusinessDay(
         startDate: LocalDateTime,
         endDate: LocalDateTime = LocalDateTime.now(),
-        includeStartDay: Boolean = false
-    ): Int {
-        return calculateAfterBusinessDay(
-            startDate.toLocalDate(), endDate.toLocalDate(), includeStartDay
+        includeStartDay: Boolean = false,
+    ): Int =
+        calculateAfterBusinessDay(
+            startDate.toLocalDate(),
+            endDate.toLocalDate(),
+            includeStartDay,
         )
-    }
 
     fun calculateAfterBusinessDay(
         startDate: LocalDate,
         endDate: LocalDate = LocalDate.now(),
-        includeStartDay: Boolean = false
+        includeStartDay: Boolean = false,
     ): Int {
-        val start = if (includeStartDay.not())
-            startDate.plusDays(1)
-        else
-            startDate
+        val start =
+            if (includeStartDay.not()) {
+                startDate.plusDays(1)
+            } else {
+                startDate
+            }
 
         val period = Period.between(start, endDate)
 
@@ -73,19 +68,18 @@ class HolidayCalculator(
     fun calculateListAfterBusinessDay(
         sourceDates: Collection<LocalDateTime>,
         targetDate: LocalDateTime = LocalDateTime.now(),
-        includeStartDay: Boolean = false
-    ): List<Int> {
-        return calculateListAfterBusinessDay(
+        includeStartDay: Boolean = false,
+    ): List<Int> =
+        calculateListAfterBusinessDay(
             sourceDates.map { it.toLocalDate() },
             targetDate.toLocalDate(),
-            includeStartDay
+            includeStartDay,
         )
-    }
 
     fun calculateListAfterBusinessDay(
         startDates: Collection<LocalDate>,
         endDate: LocalDate = LocalDate.now(),
-        includeStartDay: Boolean = false
+        includeStartDay: Boolean = false,
     ): List<Int> {
         val localCache = mutableMapOf<Pair<LocalDate, LocalDate>, Int>()
 
@@ -104,7 +98,7 @@ class HolidayCalculator(
     fun getDateAfterBusinessDay(
         localDateTime: LocalDateTime,
         day: Int,
-        includeStartDay: Boolean = false
+        includeStartDay: Boolean = false,
     ): LocalDateTime {
         val date = getDateAfterBusinessDay(localDateTime.toLocalDate(), day, includeStartDay)
 
@@ -114,23 +108,28 @@ class HolidayCalculator(
     fun getDateAfterBusinessDay(
         localDate: LocalDate,
         day: Int,
-        includeStartDay: Boolean = false
+        includeStartDay: Boolean = false,
     ): LocalDate {
-        val nextBusinessDay = if (isHoliday(localDate))
-            nextBusinessDay(localDate)
-        else
-            localDate
+        val nextBusinessDay =
+            if (isHoliday(localDate)) {
+                nextBusinessDay(localDate)
+            } else {
+                localDate
+            }
 
-        val start = if (includeStartDay.not() && (localDate == nextBusinessDay))
-            nextBusinessDay.plusDays(1)
-        else
-            nextBusinessDay
+        val start =
+            if (includeStartDay.not() && (localDate == nextBusinessDay)) {
+                nextBusinessDay.plusDays(1)
+            } else {
+                nextBusinessDay
+            }
 
         var remainDay = day
         var resultDate = start
         while (remainDay != 0) {
-            if (isBusinessDay(resultDate))
+            if (isBusinessDay(resultDate)) {
                 remainDay -= 1
+            }
             resultDate = resultDate.plusDays(1)
         }
 
@@ -141,13 +140,15 @@ class HolidayCalculator(
         val start = localDate.plusDays(1)
         val yearMonth = YearMonth.from(start)
 
-        return if (isBusinessDay(start)) start
-        else {
+        return if (isBusinessDay(start)) {
+            start
+        } else {
             var businessDay = start
 
-            val holidayList = cacheProvider?.getHolidayList(yearMonth) ?: findAndCaching(
-                yearMonth
-            ).map { it.localDate }
+            val holidayList =
+                cacheProvider?.getHolidayList(yearMonth) ?: findAndCaching(
+                    yearMonth,
+                ).map { it.localDate }
 
             while (businessDay in holidayList) {
                 businessDay = businessDay.plusDays(1)
@@ -159,18 +160,18 @@ class HolidayCalculator(
 
     private fun findHolidayInRange(
         startDate: LocalDate,
-        endDate: LocalDate
+        endDate: LocalDate,
     ): List<Holiday> {
         val startYearMonth = YearMonth.from(startDate)
         val endYearMonth = YearMonth.from(endDate)
 
         val startDateHolidays =
             cacheProvider?.getHolidayList(startYearMonth) ?: findAndCaching(
-                startYearMonth
+                startYearMonth,
             )
         val endDateHolidays =
             cacheProvider?.getHolidayList(endYearMonth) ?: findAndCaching(
-                endYearMonth
+                endYearMonth,
             )
 
         val set = startDateHolidays.toMutableSet()
@@ -182,8 +183,9 @@ class HolidayCalculator(
     private fun findHoliday(date: LocalDate): Holiday? {
         val yearMonth = YearMonth.from(date)
 
-        val monthHolidays = cacheProvider?.getHolidayList(yearMonth)
-            ?: findAndCaching(yearMonth)
+        val monthHolidays =
+            cacheProvider?.getHolidayList(yearMonth)
+                ?: findAndCaching(yearMonth)
 
         return monthHolidays.firstOrNull { it.localDate == date }
     }

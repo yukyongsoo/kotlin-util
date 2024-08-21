@@ -8,17 +8,29 @@ import com.epages.restdocs.apispec.SimpleType
 class RequestHeader {
     val headers = mutableListOf<HeaderDescriptorWithType>()
 
-    fun string(name: String, description: String = "", optional: Boolean = false) {
+    fun string(
+        name: String,
+        description: String = "",
+        optional: Boolean = false,
+    ) {
         val header = header(name, SimpleType.STRING, description, optional)
         headers.add(header)
     }
 
-    fun number(name: String, description: String = "", optional: Boolean = false) {
+    fun number(
+        name: String,
+        description: String = "",
+        optional: Boolean = false,
+    ) {
         val header = header(name, SimpleType.NUMBER, description, optional)
         headers.add(header)
     }
 
-    fun bool(name: String, description: String = "", optional: Boolean = false) {
+    fun bool(
+        name: String,
+        description: String = "",
+        optional: Boolean = false,
+    ) {
         val header = header(name, SimpleType.BOOLEAN, description, optional)
         headers.add(header)
     }
@@ -27,7 +39,7 @@ class RequestHeader {
         name: String,
         type: SimpleType,
         description: String,
-        optional: Boolean
+        optional: Boolean,
     ): HeaderDescriptorWithType {
         val header = ResourceDocumentation.headerWithName(name).description(description).type(type)
         return if (optional) header.optional() else header

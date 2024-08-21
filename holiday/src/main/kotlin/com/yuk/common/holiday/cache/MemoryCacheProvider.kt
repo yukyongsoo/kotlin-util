@@ -7,7 +7,10 @@ import java.util.concurrent.ConcurrentHashMap
 internal class MemoryCacheProvider : CacheProvider {
     private val cache = ConcurrentHashMap<YearMonth, MutableList<Holiday>>()
 
-    override fun addHoliday(yearMonth: YearMonth, holiday: Holiday) {
+    override fun addHoliday(
+        yearMonth: YearMonth,
+        holiday: Holiday,
+    ) {
         val list = cache[yearMonth]
 
         if (list == null) {
@@ -17,11 +20,12 @@ internal class MemoryCacheProvider : CacheProvider {
         }
     }
 
-    override fun getHolidayList(yearMonth: YearMonth): List<Holiday>? {
-        return cache[yearMonth]
-    }
+    override fun getHolidayList(yearMonth: YearMonth): List<Holiday>? = cache[yearMonth]
 
-    override fun addHolidays(yearMonth: YearMonth, holidays: List<Holiday>) {
+    override fun addHolidays(
+        yearMonth: YearMonth,
+        holidays: List<Holiday>,
+    ) {
         val list = cache[yearMonth]
 
         if (list == null) {

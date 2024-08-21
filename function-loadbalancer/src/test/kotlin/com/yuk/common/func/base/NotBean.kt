@@ -7,7 +7,5 @@ class NotBean {
     fun noReturn(string: String) {
     }
 
-    fun a(string: String): String {
-        return "NotBean"
-    }
+    fun a(string: String): String = "NotBean"
 }

@@ -10,7 +10,7 @@ class AddressSearchTest {
         val address = search.search("서울 성동구 성수이로 22길 51")
 
         assert(address.zipCode == "04798")
-        assert(address.address == "서울특별시 성동구 성수이로22길 51(성수동2가)")
+        assert(address.address == "서울특별시 성동구 성수이로22길 51 (성수동2가)")
     }
 
     @Test
@@ -26,7 +26,7 @@ class AddressSearchTest {
         val address = search.search("서울 성동구 성수이로 22길 51!!!!!!!@#$%@@#$@")
 
         assert(address.zipCode == "04798")
-        assert(address.address == "서울특별시 성동구 성수이로22길 51(성수동2가)")
+        assert(address.address == "서울특별시 성동구 성수이로22길 51 (성수동2가)")
     }
 
     @Test
@@ -34,6 +34,6 @@ class AddressSearchTest {
         val address = search.search("서울 성동구 성수이로 22길 51DELETEINSERT")
 
         assert(address.zipCode == "04798")
-        assert(address.address == "서울특별시 성동구 성수이로22길 51(성수동2가)")
+        assert(address.address == "서울특별시 성동구 성수이로22길 51 (성수동2가)")
     }
 }

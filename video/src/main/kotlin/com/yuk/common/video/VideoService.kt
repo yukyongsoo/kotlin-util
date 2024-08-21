@@ -5,13 +5,14 @@ import java.io.InputStream
 
 @Service
 class VideoService(
-    private val fileProvider: FileProvider
+    private val fileProvider: FileProvider,
 ) {
-    fun getVideo(path: VideoPathKey): Video {
-        return fileProvider.getVideo(path)
-    }
+    fun getVideo(path: VideoPathKey): Video = fileProvider.getVideo(path)
 
-    fun saveVideo(file: InputStream, path: String): VideoPathKey {
+    fun saveVideo(
+        file: InputStream,
+        path: String,
+    ): VideoPathKey {
         val savedPath = fileProvider.saveVideo(file, path)
 
         return savedPath

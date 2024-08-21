@@ -14,26 +14,18 @@ class TestService {
     }
 
     @WeightedFunction(-1, "a", NotBean::class)
-    fun notBeanCall(string: String): String {
-        return "Test.NotBeanCall"
-    }
+    fun notBeanCall(string: String): String = "Test.NotBeanCall"
 
     @WeightedFunction(-1, "aa", TestService::class)
-    fun a(string: String): String {
-        return "Test.a"
-    }
+    fun a(string: String): String = "Test.a"
 
     @WeightedFunction(-1, "a", TestService2::class)
-    fun aa(string: String): String {
-        return "Test.aa"
-    }
+    fun aa(string: String): String = "Test.aa"
 
     @WeightedFunction(-1, "c", TestService2::class)
     fun b(string: String) {
     }
 
     @WeightedFunction(-1, "cc", TestService2::class)
-    fun c(): String {
-        return "Test.c"
-    }
+    fun c(): String = "Test.c"
 }

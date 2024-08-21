@@ -9,26 +9,34 @@ class ClientTest {
     fun getMethodTest() {
         val webclient = WebClient.builder().baseUrl("https://naver.com").build()
 
-        ReactiveApiClient(webclient).get(
-            ""
-        ).bodyToMono<String>().block()
+        ReactiveApiClient(webclient)
+            .get(
+                "",
+            ).bodyToMono<String>()
+            .block()
     }
 
     @Test
     fun postMethodTest() {
         val webclient = WebClient.builder().baseUrl("https://naver.com").build()
 
-        ReactiveApiClient(webclient).post(
-            "", body = "null"
-        ).bodyToMono<String>().block()
+        ReactiveApiClient(webclient)
+            .post(
+                "",
+                body = "null",
+            ).bodyToMono<String>()
+            .block()
     }
 
     @Test
     fun patchMethodTest() {
         val webclient = WebClient.builder().baseUrl("https://naver.com").build()
 
-        ReactiveApiClient(webclient).patch(
-            "", body = "null"
-        ).bodyToMono<String>().block()
+        ReactiveApiClient(webclient)
+            .patch(
+                "",
+                body = "null",
+            ).bodyToMono<String>()
+            .block()
     }
 }

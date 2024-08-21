@@ -11,7 +11,10 @@ open class MysqlTestContainer : BeforeAllCallback {
         private var initSqlPath: String = ""
         private var configurationList: List<MysqlTestConfiguration> = listOf()
 
-        fun initialize(configurationList: List<MysqlTestConfiguration>, initSql: String = "") {
+        fun initialize(
+            configurationList: List<MysqlTestConfiguration>,
+            initSql: String = "",
+        ) {
             MysqlTestContainer.configurationList = configurationList
             initSqlPath = initSql
 
@@ -27,8 +30,9 @@ open class MysqlTestContainer : BeforeAllCallback {
                 withPassword("")
                 withExposedPorts(3306)
 
-                if (initSqlPath.isNotBlank())
+                if (initSqlPath.isNotBlank()) {
                     withInitScript(initSqlPath)
+                }
             }
         }
     }
@@ -45,10 +49,12 @@ open class MysqlTestContainer : BeforeAllCallback {
         if (mysql.isRunning.not()) mysql.start()
 
         configurationList.forEach { configuration ->
-            val url = if (configuration.connectOption.isNotBlank())
-                "jdbc:mysql://${mysql.containerIpAddress}:${mysql.firstMappedPort}/${configuration.databaseName}?${configuration.connectOption}"
-            else
-                "jdbc:mysql://${mysql.containerIpAddress}:${mysql.firstMappedPort}/${configuration.databaseName}"
+            val url =
+                if (configuration.connectOption.isNotBlank()) {
+                    "jdbc:mysql://${mysql.containerIpAddress}:${mysql.firstMappedPort}/${configuration.databaseName}?${configuration.connectOption}"
+                } else {
+                    "jdbc:mysql://${mysql.containerIpAddress}:${mysql.firstMappedPort}/${configuration.databaseName}"
+                }
 
             System.setProperty("${configuration.rootPropertyName}.driver-class-name", "com.mysql.cj.jdbc.Driver")
             System.setProperty("${configuration.rootPropertyName}.url", url)
@@ -61,7 +67,7 @@ open class MysqlTestContainer : BeforeAllCallback {
 class MysqlTestConfiguration(
     rootPropertyName: String,
     val databaseName: String = "test",
-    connectOption: String = ""
+    connectOption: String = "",
 ) {
     var rootPropertyName: String
         private set
@@ -69,14 +75,16 @@ class MysqlTestConfiguration(
         private set
 
     init {
-        if (rootPropertyName.last() == '.')
+        if (rootPropertyName.last() == '.') {
             this.rootPropertyName = rootPropertyName.dropLast(1)
-        else
+        } else {
             this.rootPropertyName = rootPropertyName
+        }
 
-        if (connectOption.first() == '?')
+        if (connectOption.first() == '?') {
             this.connectOption = connectOption.drop(1)
-        else
+        } else {
             this.connectOption = connectOption
+        }
     }
 }

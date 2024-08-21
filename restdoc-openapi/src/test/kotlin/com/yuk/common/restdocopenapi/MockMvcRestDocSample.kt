@@ -24,20 +24,22 @@ class MockMvcRestDocSample {
 
     @Test
     fun test() {
-        val request = mapper.writeValueAsString(
-            TestController.TestRequestBody(1, "111")
-        )
-
-        mockMvc.perform(
-            request(
-                HttpMethod.POST, "/{id}", "1"
+        val request =
+            mapper.writeValueAsString(
+                TestController.TestRequestBody(1, "111"),
             )
-                .content(request)
-                .contentType(MediaType.APPLICATION_JSON)
-                .header("X-PLATFORM", "AAAAA")
-                .param("param", "aaa")
-        )
-            .andExpect(status().isOk)
+
+        mockMvc
+            .perform(
+                request(
+                    HttpMethod.POST,
+                    "/{id}",
+                    "1",
+                ).content(request)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .header("X-PLATFORM", "AAAAA")
+                    .param("param", "aaa"),
+            ).andExpect(status().isOk)
             .andDo {
                 document(it) {
                     name = ""

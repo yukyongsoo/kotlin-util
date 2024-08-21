@@ -32,13 +32,15 @@ open class ElasticSearchTestContainer : BeforeAllCallback {
     }
 
     fun start() {
-        if (es.isRunning.not())
+        if (es.isRunning.not()) {
             es.start()
+        }
     }
 
     fun stop() {
-        if (es.isRunning)
+        if (es.isRunning) {
             es.stop()
+        }
     }
 
     fun configuration() {

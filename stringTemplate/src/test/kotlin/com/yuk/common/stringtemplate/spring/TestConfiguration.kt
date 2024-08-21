@@ -12,27 +12,17 @@ import org.springframework.context.annotation.Bean
 @TestConfiguration
 class TestConfiguration {
     @Bean
-    fun getJPAGroupProvider(): GroupProvider {
-        return JPAGroupProvider()
-    }
+    fun getJPAGroupProvider(): GroupProvider = JPAGroupProvider()
 
     @Bean
-    fun getJPATemplateProvider(): TemplateProvider {
-        return JPATemplateProvider()
-    }
+    fun getJPATemplateProvider(): TemplateProvider = JPATemplateProvider()
 
     @Bean
-    fun getTemplateManger(
-        templateProvider: TemplateProvider
-    ): TemplateManager {
-        return TemplateManager(templateProvider)
-    }
+    fun getTemplateManger(templateProvider: TemplateProvider): TemplateManager = TemplateManager(templateProvider)
 
     @Bean
     fun getGroupManager(
         groupProvider: GroupProvider,
-        templateManager: TemplateManager
-    ): GroupManager {
-        return GroupManager(groupProvider, templateManager)
-    }
+        templateManager: TemplateManager,
+    ): GroupManager = GroupManager(groupProvider, templateManager)
 }

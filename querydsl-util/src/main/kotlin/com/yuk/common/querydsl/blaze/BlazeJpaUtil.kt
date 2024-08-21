@@ -6,15 +6,14 @@ import com.querydsl.core.types.Expression
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.JPQLQuery
 
-infix fun <T> BlazeJPAQuery<T>.SELECT(entityPath: EntityPath<T>): JPQLQuery<T> {
-    return this.select(entityPath)
-}
+infix fun <T> BlazeJPAQuery<T>.SELECT(entityPath: EntityPath<T>): JPQLQuery<T> = this.select(entityPath)
 
 inline infix fun <reified T : Any> BlazeJPAQuery<T>.SELECT(function: () -> Array<Expression<out Any>>): JPQLQuery<T> {
-    val projection = Projections.constructor(
-        T::class.java,
-        *function()
-    )
+    val projection =
+        Projections.constructor(
+            T::class.java,
+            *function(),
+        )
 
     return this.select(projection)
 }

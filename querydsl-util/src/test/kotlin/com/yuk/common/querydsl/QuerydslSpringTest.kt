@@ -13,7 +13,10 @@ class QuerydslSpringTest {
     companion object {
         init {
             val config =
-                MysqlTestConfiguration("spring.datasource", connectOption = "useUnicode=true&charset=utf8mb4&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&enabledTLSProtocols=TLSv1.2")
+                MysqlTestConfiguration(
+                    "spring.datasource",
+                    connectOption = "useUnicode=true&charset=utf8mb4&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&enabledTLSProtocols=TLSv1.2",
+                )
 
             MysqlTestContainer.initialize(listOf(config))
         }
