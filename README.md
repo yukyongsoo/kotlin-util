@@ -9,5 +9,4 @@
 7. src/main: 항상 하지만 까먹기 쉬운 샘플들
 8. restdoc-openapi: spring restdoc의 결과물인 아스키독을 openapi spec으로 변환해준다
 9. address: 주소 검색 후 우편번호 및 상세 정보를 반환하는 서비스
-10. video: 비디오 관련 스트리밍, 업로드 후 저장 서비스 
-11. stringTemplate: 문자열 템플릿을 이용하여 문자열을 생성하는 서비스
+10. video: 비디오 관련 스트리밍, 업로드 후 저장 서비스
