@@ -1,6 +1,6 @@
 package com.yuk.common.httpclient
 
-import org.springframework.http.HttpStatus
+import org.springframework.http.HttpStatusCode
 import org.springframework.web.reactive.function.client.ClientResponse
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
@@ -142,5 +142,5 @@ class ReactiveApiClient(
     private fun send(
         spec: WebClient.RequestHeadersSpec<*>,
         errorHandler: (ClientResponse) -> Mono<out Throwable>,
-    ): WebClient.ResponseSpec = spec.retrieve().onStatus(HttpStatus::isError, errorHandler)
+    ): WebClient.ResponseSpec = spec.retrieve().onStatus(HttpStatusCode::isError, errorHandler)
 }

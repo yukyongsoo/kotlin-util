@@ -6,8 +6,10 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework:spring-webflux:5.3.9")
-    implementation("io.projectreactor.netty:reactor-netty-http:1.0.10")
+    implementation("org.springframework:spring-webflux:6.2.12")
+    implementation("io.projectreactor.netty:reactor-netty-http:1.2.11")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test:3.5.7")
 }
 
 tasks.withType<Test> {
