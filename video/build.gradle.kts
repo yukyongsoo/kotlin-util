@@ -6,13 +6,13 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework:spring-webmvc:5.3.9")
+    implementation("org.springframework:spring-webmvc:6.2.12")
 
-    implementation(platform("software.amazon.awssdk:bom:2.15.0"))
+    implementation(platform("software.amazon.awssdk:bom:2.36.3"))
     implementation("software.amazon.awssdk:s3")
 
-    testImplementation("org.springframework.boot:spring-boot-starter-web:2.5.3")
-    testImplementation("org.springframework.boot:spring-boot-starter-test:2.5.3")
+    testImplementation("org.springframework.boot:spring-boot-starter-web:3.5.7")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:3.5.7")
 }
 
 tasks.withType<Test> {
