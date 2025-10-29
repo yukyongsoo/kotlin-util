@@ -6,7 +6,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.openapitools.openapidiff:openapi-diff-core:2.0.1")
+    implementation("org.openapitools.openapidiff:openapi-diff-core:2.1.4")
 }
 
 tasks.withType<Test> {
