@@ -2,7 +2,7 @@ group = "com.yuk.common"
 version = "0.1-SNAPSHOT"
 
 plugins {
-    val kotlinVersion = "2.0.0"
+    val kotlinVersion = "2.2.21"
 
     kotlin("plugin.spring") version kotlinVersion
 }
@@ -12,14 +12,12 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.springframework:spring-context:5.3.20")
-    implementation("org.springframework:spring-aop:5.3.20")
-    implementation("org.aspectj:aspectjrt:1.9.6")
-    implementation("org.aspectj:aspectjweaver:1.9.7")
+    compileOnly("org.springframework:spring-context:6.2.12")
+    implementation("org.springframework:spring-aop:6.2.12")
+    implementation("org.aspectj:aspectjrt:1.9.24")
+    implementation("org.aspectj:aspectjweaver:1.9.24")
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test:2.5.3") {
-        exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
-    }
+    testImplementation("org.springframework.boot:spring-boot-starter-test:3.5.7")
 }
 
 tasks.getByName<Test>("test") {
