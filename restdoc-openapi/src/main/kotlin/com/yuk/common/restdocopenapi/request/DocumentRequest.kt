@@ -34,7 +34,7 @@ class DocumentRequest(
     fun query(func: RequestQuery.() -> Unit) {
         val query = RequestQuery()
         query.func()
-        builder = builder.requestParameters(query.queries)
+        builder = builder.queryParameters(query.queries)
         this.requestQuery = query
     }
 

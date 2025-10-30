@@ -8,7 +8,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.request
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
@@ -31,11 +31,12 @@ class MockMvcRestDocSample {
 
         mockMvc
             .perform(
-                request(
-                    HttpMethod.POST,
-                    "/{id}",
-                    "1",
-                ).content(request)
+                RestDocumentationRequestBuilders
+                    .request(
+                        HttpMethod.POST,
+                        "/{id}",
+                        "1",
+                    ).content(request)
                     .contentType(MediaType.APPLICATION_JSON)
                     .header("X-PLATFORM", "AAAAA")
                     .param("param", "aaa"),
