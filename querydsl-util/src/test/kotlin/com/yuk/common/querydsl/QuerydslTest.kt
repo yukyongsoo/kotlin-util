@@ -4,28 +4,24 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import com.yuk.common.querydsl.base.QTestEntity
 import com.yuk.common.querydsl.base.QTestEntity2
 import com.yuk.common.querydsl.spring.SELECT
-import com.yuk.common.testcontainer.MysqlTestConfiguration
-import com.yuk.common.testcontainer.MysqlTestContainer
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection
+import org.testcontainers.junit.jupiter.Container
+import org.testcontainers.junit.jupiter.Testcontainers
+import org.testcontainers.mysql.MySQLContainer
+import org.testcontainers.utility.DockerImageName
 
+@Testcontainers
 @SpringBootTest
 class QuerydslTest {
     companion object {
-        init {
-            val config =
-                MysqlTestConfiguration(
-                    "spring.datasource",
-                    connectOption = "useUnicode=true&charset=utf8mb4&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&enabledTLSProtocols=TLSv1.2",
-                )
-
-            MysqlTestContainer.initialize(listOf(config))
-        }
-
-        @RegisterExtension
-        val mysql = MysqlTestContainer()
+        @Container
+        @ServiceConnection
+        @JvmStatic
+        val mysql = MySQLContainer(DockerImageName.parse("mysql"))
     }
 
     private val entity: QTestEntity = QTestEntity.testEntity

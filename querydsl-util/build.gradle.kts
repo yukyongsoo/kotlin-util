@@ -6,33 +6,36 @@ repositories {
 }
 
 plugins {
-    val kotlinVersion = "2.0.0"
+    val kotlinVersion = "2.2.21"
 
     kotlin("plugin.spring") version kotlinVersion
     kotlin("plugin.jpa") version kotlinVersion
     kotlin("plugin.allopen") version kotlinVersion
+
+    id("com.google.devtools.ksp") version "2.2.21-2.0.4"
 }
 
 allOpen {
-    annotation("javax.persistence.Entity")
+    annotation("jakarta.persistence.Entity")
     annotation("org.springframework.stereotype.Service")
 }
 
 dependencies {
-    implementation("com.querydsl:querydsl-jpa:5.0.0")
-    implementation("org.springframework.data:spring-data-jpa:2.5.3")
-    implementation("com.blazebit:blaze-persistence-integration-querydsl-expressions:1.6.6")
-    implementation("com.blazebit:blaze-persistence-integration-hibernate-5.4:1.6.6")
+    implementation("io.github.openfeign.querydsl:querydsl-jpa:6.12")
+    implementation("org.springframework.data:spring-data-jpa:3.5.5")
+    implementation("com.blazebit:blaze-persistence-integration-querydsl-expressions-jakarta:1.6.17")
+    implementation("com.blazebit:blaze-persistence-integration-hibernate-6.2:1.6.17")
 
-    kaptTest("com.querydsl:querydsl-apt:5.0.0:jpa")
+    kspTest("io.github.openfeign.querydsl:querydsl-ksp-codegen:6.12")
+    annotationProcessor("io.github.openfeign.querydsl:querydsl-apt:6.12:jakarta")
 
-    testImplementation("org.springframework.boot:spring-boot-starter-data-jpa:2.5.3")
-    testImplementation("org.springframework.boot:spring-boot-starter-test:2.5.3") {
-        exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
-    }
-    testImplementation(project(":testContainer"))
+    testImplementation("org.springframework.boot:spring-boot-starter-data-jpa:3.5.7")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:3.5.7")
+    testImplementation("org.springframework.boot:spring-boot-testcontainers:3.5.7")
+    testImplementation("org.testcontainers:junit-jupiter:1.21.3")
+    testImplementation("org.testcontainers:testcontainers-mysql:2.0.1")
 
-    testRuntimeOnly("mysql:mysql-connector-java:8.0.29")
+    testRuntimeOnly("com.mysql:mysql-connector-j:9.5.0")
 }
 
 idea {
