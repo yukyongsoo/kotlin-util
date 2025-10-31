@@ -5,8 +5,9 @@ import kotlin.reflect.KClass
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FUNCTION)
 @MustBeDocumented
-annotation class WeightedFunction(
-    val weight: Int,
+annotation class DistributeCall(
+    val name: String,
     val otherFunctionName: String,
     val otherClass: KClass<*>,
+    val strategyName: String,
 )
