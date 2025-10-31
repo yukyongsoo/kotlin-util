@@ -1,31 +1,41 @@
 package com.yuk.common.func.base
 
-import com.yuk.common.func.WeightedFunction
+import com.yuk.common.func.DistributeCall
 import org.springframework.stereotype.Service
 
 @Service
 class TestService {
-    @WeightedFunction(-1, "noArg", TestService2::class)
+    @DistributeCall("test", "noArg", TestService2::class, "test")
     fun noArg() {
     }
 
-    @WeightedFunction(-1, "noReturn", TestService2::class)
+    @DistributeCall("test", "noReturn", TestService2::class, "test")
     fun noReturn(string: String) {
     }
 
-    @WeightedFunction(-1, "a", NotBean::class)
+    @DistributeCall("test", "a", NotBean::class, "test")
     fun notBeanCall(string: String): String = "Test.NotBeanCall"
 
-    @WeightedFunction(-1, "aa", TestService::class)
-    fun a(string: String): String = "Test.a"
+    @DistributeCall("test", "sameClassCallSub", TestService::class, "test")
+    fun sameClassCall(string: String): String = "Test.a"
 
-    @WeightedFunction(-1, "a", TestService2::class)
-    fun aa(string: String): String = "Test.aa"
+    fun sameClassCallSub(string: String): String = "Test.aaa"
 
-    @WeightedFunction(-1, "c", TestService2::class)
-    fun b(string: String) {
+    @DistributeCall("test", "a", TestService2::class, "test")
+    fun otherClassCall(string: String): String = "Test.aa"
+
+    @DistributeCall("test", "c", TestService2::class, "test")
+    fun differentArgs(string: String) {
     }
 
-    @WeightedFunction(-1, "cc", TestService2::class)
-    fun c(): String = "Test.c"
+    @DistributeCall("test", "cc", TestService2::class, "test")
+    fun differentReturn(): String = "Test.c"
+
+    @DistributeCall("test", "sameClassCall", TestService::class, "test")
+    fun recursiveCall(string: String) = "Test.a"
+
+    @DistributeCall("test", "successRatioTestCallSub", TestService::class, "test2")
+    fun successRatioTestCall(string: String): String = "Test.a"
+
+    fun successRatioTestCallSub(string: String): String = "Test.aa"
 }
