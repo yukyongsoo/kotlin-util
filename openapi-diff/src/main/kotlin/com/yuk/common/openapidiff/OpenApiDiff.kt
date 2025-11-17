@@ -5,6 +5,7 @@ import org.openapitools.openapidiff.core.model.ChangedOpenApi
 import org.openapitools.openapidiff.core.output.HtmlRender
 import org.openapitools.openapidiff.core.output.MarkdownRender
 import java.io.FileWriter
+import java.io.OutputStreamWriter
 
 class OpenApiDiff {
     fun diff(
@@ -21,16 +22,8 @@ class OpenApiDiff {
             HtmlRender(
                 "Changelog",
                 "http://deepoove.com/swagger-diff/stylesheets/demo.css",
-            ).render(diff)
+            ).render(diff, FileWriter("NewApi.html"))
 
-        FileWriter("NewApi.html").use {
-            it.write(html)
-        }
-
-        val markdown = MarkdownRender().render(diff)
-
-        FileWriter("NewApi.md").use {
-            it.write(markdown)
-        }
+        val markdown = MarkdownRender().render(diff, FileWriter("NewApi.md"))
     }
 }
