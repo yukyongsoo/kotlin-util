@@ -3,9 +3,7 @@ package com.yuk.common.querydsl
 import com.querydsl.jpa.impl.JPAQueryFactory
 import com.yuk.common.querydsl.base.QTestEntity
 import com.yuk.common.querydsl.base.QTestEntity2
-import com.yuk.common.querydsl.spring.SELECT
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.RegisterExtension
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection
@@ -187,6 +185,41 @@ class QuerydslTest {
         assert(
             query.toString() ==
                 "select testEntity\nfrom TestEntity testEntity\n  inner join fetch TestEntity2 testEntity2 with testEntity.id = testEntity2.id",
+        )
+    }
+
+    @Test
+    fun `서브쿼리 테스트`() {
+        val query =
+            jpaQueryFactory SELECT entity FROM entity WHERE {
+                entity.id.eq(
+                    subquery {
+                        SELECT(entity2.id) FROM entity2
+                    },
+                )
+            }
+
+        query.fetch()
+
+        assert(
+            query.toString() ==
+                "select testEntity\n" + "from TestEntity testEntity\n" + "where testEntity.id = (select testEntity2.id\n" + "from TestEntity2 testEntity2)",
+        )
+    }
+
+    @Test
+    fun `Case 문법 테스트`() {
+        val query =
+            jpaQueryFactory SELECT
+                case {
+                    WHEN((entity.id EQUAL 1)!!) THEN 1L WHEN (entity.id EQUAL 2)!! THEN 2L ELSE 3L
+                } FROM entity
+
+        query.fetch()
+
+        assert(
+            query.toString() ==
+                "select case when (testEntity.id = ?1) then 1 when (testEntity.id = ?2) then 2 else 3 end\n" + "from TestEntity testEntity",
         )
     }
 }

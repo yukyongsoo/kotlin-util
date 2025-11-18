@@ -31,7 +31,7 @@ dependencies {
     implementation("com.blazebit:blaze-persistence-integration-hibernate-6.2:1.6.17")
 
     kspTest("io.github.openfeign.querydsl:querydsl-ksp-codegen:6.12")
-    annotationProcessor("io.github.openfeign.querydsl:querydsl-apt:6.12:jakarta")
+    //annotationProcessor("io.github.openfeign.querydsl:querydsl-apt:6.12:jakarta")
 
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa:3.5.7")
     testImplementation("org.springframework.boot:spring-boot-starter-test:3.5.7")
