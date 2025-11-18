@@ -1,3 +1,7 @@
+import org.gradle.kotlin.dsl.withType
+import org.jmailen.gradle.kotlinter.tasks.FormatTask
+import org.jmailen.gradle.kotlinter.tasks.LintTask
+
 group = "com.yuk.common"
 version = "0.2-SNAPSHOT"
 
@@ -50,3 +54,20 @@ idea {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+tasks.withType<LintTask> {
+    exclude {
+        // Windows 경로를 Unix 형식으로 변환
+        val path = it.file.absolutePath.replace("\\", "/")
+        path.contains("/build/generated")
+    }
+}
+
+tasks.withType<FormatTask> {
+    exclude {
+        // Windows 경로를 Unix 형식으로 변환
+        val path = it.file.absolutePath.replace("\\", "/")
+        path.contains("/build/generated")
+    }
+}
+
