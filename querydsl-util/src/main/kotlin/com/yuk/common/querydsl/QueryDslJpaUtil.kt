@@ -8,6 +8,7 @@ import com.querydsl.core.types.Predicate
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.core.types.dsl.ComparableExpression
+import com.querydsl.core.types.dsl.SimpleExpression
 import com.querydsl.jpa.JPQLQuery
 import com.querydsl.jpa.impl.JPAQueryFactory
 
@@ -114,6 +115,8 @@ infix fun <T> JPQLQuery<T>.ORDERBY(function: () -> Array<out OrderSpecifier<*>>)
 
 infix fun <T> JPQLQuery<T>.GROUPBY(path: Path<*>): JPQLQuery<T> = this.groupBy(path)
 
+infix fun <T> JPQLQuery<T>.GROUPBY(function: () -> Array<Path<*>>): JPQLQuery<T> = this.groupBy(*function())
+
 infix fun <T> JPQLQuery<T>.HAVING(expr: BooleanExpression?): JPQLQuery<T> = this.having(expr)
 
 infix fun <T : Comparable<Nothing>?> ComparableExpression<T>.EQUAL(value: T): BooleanExpression? =
@@ -122,3 +125,15 @@ infix fun <T : Comparable<Nothing>?> ComparableExpression<T>.EQUAL(value: T): Bo
     } else {
         eq(value)
     }
+
+sealed interface NullExpression
+
+object NULL : NullExpression
+
+object `NOT NULL` : NullExpression
+
+infix fun SimpleExpression<*>.`IS`(expression: NullExpression): BooleanExpression {
+    return if (expression == NULL) {
+        this.isNull
+    } else this.isNotNull
+}
