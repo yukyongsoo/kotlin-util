@@ -1,15 +1,20 @@
 package com.yuk.common.querydsl
 
+import com.querydsl.core.types.dsl.CaseBuilder
+import com.querydsl.core.types.dsl.Expressions
+import com.querydsl.core.types.dsl.NumberExpression
+import com.querydsl.core.types.dsl.Param
 import com.querydsl.jpa.impl.JPAQueryFactory
 import com.yuk.common.querydsl.base.QTestEntity
 import com.yuk.common.querydsl.base.QTestEntity2
+import com.yuk.common.querydsl.base.TestEnum
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection
+import org.testcontainers.containers.MySQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
-import org.testcontainers.mysql.MySQLContainer
 import org.testcontainers.utility.DockerImageName
 
 @Testcontainers
@@ -209,17 +214,24 @@ class QuerydslTest {
 
     @Test
     fun `Case 문법 테스트`() {
+// WHEN ORDINAL ENUM COLUMN
+//        val case = CaseBuilder()
+//            .`when`(entity.id EQUAL 1).`then`(Expressions.numberTemplate(Int::class.java, "{0}", entity.test2))
+//            .`when`(entity.id EQUAL 2).`then`(TestEnum.A.ordinal)
+//            .otherwise(TestEnum.B.ordinal)
+//        val enumPath = Expressions.enumTemplate(TestEnum::class.java, "{0}", case)
+
         val query =
             jpaQueryFactory SELECT
                 case {
-                    WHEN((entity.id EQUAL 1)!!) THEN 1L WHEN (entity.id EQUAL 2)!! THEN 2L ELSE 3L
+                    WHEN((entity.id EQUAL 1)!!) THEN entity.test2 WHEN (entity.id EQUAL 2)!! THEN TestEnum.A ELSE TestEnum.B
                 } FROM entity
 
         query.fetch()
 
         assert(
             query.toString() ==
-                "select case when (testEntity.id = ?1) then 1 when (testEntity.id = ?2) then 2 else 3 end\n" + "from TestEntity testEntity",
+                "select case when (testEntity.id = ?1) then testEntity.test2 when (testEntity.id = ?2) then 'A' else 'B' end\n" + "from TestEntity testEntity",
         )
     }
 }

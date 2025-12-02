@@ -13,8 +13,8 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Scope
 import org.springframework.context.annotation.ScopedProxyMode
+import org.testcontainers.containers.MySQLContainer
 import org.testcontainers.junit.jupiter.Container
-import org.testcontainers.mysql.MySQLContainer
 import org.testcontainers.utility.DockerImageName
 
 @Configuration

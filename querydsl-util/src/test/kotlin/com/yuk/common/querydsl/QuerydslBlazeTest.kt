@@ -7,13 +7,12 @@ import com.yuk.common.querydsl.base.TestEntity
 import com.yuk.common.querydsl.blaze.SELECT
 import jakarta.persistence.EntityManager
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.RegisterExtension
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection
+import org.testcontainers.containers.MySQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
-import org.testcontainers.mysql.MySQLContainer
 import org.testcontainers.utility.DockerImageName
 
 @Testcontainers

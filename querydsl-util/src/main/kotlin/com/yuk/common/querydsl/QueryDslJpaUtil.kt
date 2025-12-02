@@ -132,8 +132,9 @@ object NULL : NullExpression
 
 object `NOT NULL` : NullExpression
 
-infix fun SimpleExpression<*>.`IS`(expression: NullExpression): BooleanExpression {
-    return if (expression == NULL) {
+infix fun SimpleExpression<*>.`IS`(expression: NullExpression): BooleanExpression =
+    if (expression == NULL) {
         this.isNull
-    } else this.isNotNull
-}
+    } else {
+        this.isNotNull
+    }
