@@ -8,6 +8,7 @@ repositories {
 dependencies {
     implementation("org.springframework:spring-webflux:6.2.12")
     implementation("io.projectreactor.netty:reactor-netty-http:1.2.11")
+    implementation("org.springframework:spring-web:6.2.3")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test:3.5.7")
 }
