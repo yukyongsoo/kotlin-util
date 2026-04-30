@@ -18,7 +18,7 @@ class QuerydslSpringTest {
         @Container
         @ServiceConnection
         @JvmStatic
-        val mysql = MySQLContainer(DockerImageName.parse("mysql"))
+        val mysql = MySQLContainer(DockerImageName.parse("mysql:8.0.36"))
     }
 
     @Autowired

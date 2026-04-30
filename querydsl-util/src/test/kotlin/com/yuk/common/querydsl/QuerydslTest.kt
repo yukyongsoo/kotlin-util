@@ -24,7 +24,7 @@ class QuerydslTest {
         @Container
         @ServiceConnection
         @JvmStatic
-        val mysql = MySQLContainer(DockerImageName.parse("mysql"))
+        val mysql = MySQLContainer(DockerImageName.parse("mysql:8.0.36"))
     }
 
     private val entity: QTestEntity = QTestEntity.testEntity
@@ -209,6 +209,82 @@ class QuerydslTest {
         assert(
             query.toString() ==
                 "select testEntity\n" + "from TestEntity testEntity\n" + "where testEntity.id = (select testEntity2.id\n" + "from TestEntity2 testEntity2)",
+        )
+    }
+
+    @Test
+    fun `EXISTS 서브쿼리`() {
+        val query =
+            jpaQueryFactory SELECT entity FROM entity WHERE {
+                EXISTS { SELECT(entity2.id) FROM entity2 WHERE { entity2.id EQUAL entity.id } }
+            }
+
+        query.fetch()
+
+        assert(
+            query.toString() ==
+                "select testEntity\n" +
+                "from TestEntity testEntity\n" +
+                "where exists (select 1\n" +
+                "from TestEntity2 testEntity2\n" +
+                "where testEntity2.id = testEntity.id)",
+        )
+    }
+
+    @Test
+    fun `NOT EXISTS 서브쿼리`() {
+        val query =
+            jpaQueryFactory SELECT entity FROM entity WHERE {
+                NOT_EXISTS { SELECT(entity2.id) FROM entity2 WHERE { entity2.id EQUAL entity.id } }
+            }
+
+        query.fetch()
+
+        assert(
+            query.toString() ==
+                "select testEntity\n" +
+                "from TestEntity testEntity\n" +
+                "where not exists (select 1\n" +
+                "from TestEntity2 testEntity2\n" +
+                "where testEntity2.id = testEntity.id)",
+        )
+    }
+
+    @Test
+    fun `EXISTS AND 조합`() {
+        val query =
+            jpaQueryFactory SELECT entity FROM entity WHERE {
+                (entity.test EQUAL "test") AND EXISTS { SELECT(entity2.id) FROM entity2 WHERE { entity2.id EQUAL entity.id } }
+            }
+
+        query.fetch()
+
+        assert(
+            query.toString() ==
+                "select testEntity\n" +
+                "from TestEntity testEntity\n" +
+                "where testEntity.test = ?1 and exists (select 1\n" +
+                "from TestEntity2 testEntity2\n" +
+                "where testEntity2.id = testEntity.id)",
+        )
+    }
+
+    @Test
+    fun `EXISTS OR 조합`() {
+        val query =
+            jpaQueryFactory SELECT entity FROM entity WHERE {
+                (entity.test EQUAL "test") OR EXISTS { SELECT(entity2.id) FROM entity2 WHERE { entity2.id EQUAL entity.id } }
+            }
+
+        query.fetch()
+
+        assert(
+            query.toString() ==
+                "select testEntity\n" +
+                "from TestEntity testEntity\n" +
+                "where testEntity.test = ?1 or exists (select 1\n" +
+                "from TestEntity2 testEntity2\n" +
+                "where testEntity2.id = testEntity.id)",
         )
     }
 

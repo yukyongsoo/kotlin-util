@@ -26,12 +26,11 @@ allOpen {
 
 dependencies {
     implementation("io.github.openfeign.querydsl:querydsl-jpa:6.12")
-    implementation("org.springframework.data:spring-data-jpa:3.5.5")
+    implementation("org.springframework.data:spring-data-jpa:3.5.7")
     implementation("com.blazebit:blaze-persistence-integration-querydsl-expressions-jakarta:1.6.17")
     implementation("com.blazebit:blaze-persistence-integration-hibernate-6.2:1.6.17")
 
     kspTest("io.github.openfeign.querydsl:querydsl-ksp-codegen:6.12")
-    //annotationProcessor("io.github.openfeign.querydsl:querydsl-apt:6.12:jakarta")
 
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa:3.5.7")
     testImplementation("org.springframework.boot:spring-boot-starter-test:3.5.7")

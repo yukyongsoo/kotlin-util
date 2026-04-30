@@ -3,6 +3,7 @@ package com.yuk.common.querydsl
 import com.querydsl.core.types.EntityPath
 import com.querydsl.core.types.Expression
 import com.querydsl.core.types.Predicate
+import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.JPAExpressions
 import com.querydsl.jpa.JPQLSubQuery
 
@@ -21,6 +22,26 @@ inline fun <T> subquery(block: SubqueryScope.() -> JPQLSubQuery<T>): JPQLSubQuer
         }
 
     return scope.block()
+}
+
+inline fun EXISTS(block: SubqueryScope.() -> JPQLSubQuery<*>): BooleanExpression {
+    val scope =
+        object : SubqueryScope {
+            override fun <R> SELECT(expr: Expression<R>): JPQLSubQuery<R> = JPAExpressions.select(expr)
+
+            override fun <T> `SELECT DISTINCT`(expr: Expression<T>): JPQLSubQuery<T> = JPAExpressions.selectDistinct(expr)
+        }
+    return scope.block().exists()
+}
+
+inline fun NOT_EXISTS(block: SubqueryScope.() -> JPQLSubQuery<*>): BooleanExpression {
+    val scope =
+        object : SubqueryScope {
+            override fun <R> SELECT(expr: Expression<R>): JPQLSubQuery<R> = JPAExpressions.select(expr)
+
+            override fun <T> `SELECT DISTINCT`(expr: Expression<T>): JPQLSubQuery<T> = JPAExpressions.selectDistinct(expr)
+        }
+    return scope.block().notExists()
 }
 
 infix fun <T, V> JPQLSubQuery<T>.FROM(entityPath: EntityPath<V>): JPQLSubQuery<T> = this.from(entityPath)
